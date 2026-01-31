@@ -9,12 +9,30 @@ namespace Player
         [SerializeField] public float xBound = 600.0f;
         [SerializeField] public float yBound = 720.0f;
 
+        private float _screenHeight;
+        private float _screenWidth;
+
+        private float _FOPheight;
+        private float _FOPwidth;
+        
+        private float FOPaspectRatio = 730f/850f; // the ratio of 730/850 (H/W) needs to be maintained for the field of play
+
+
         [SerializeField] private GameObject hitBoxSprite;
         private bool _isHitBoxSpriteNotNull;
 
         private void Start()
         {
             _isHitBoxSpriteNotNull = hitBoxSprite != null;
+            _screenHeight = Screen.height/2;
+            _screenWidth = Screen.width/2;
+
+            _FOPheight = _screenHeight*0.93f*2;
+            
+            _FOPwidth = 1f/FOPaspectRatio*_FOPheight;
+            Debug.Log(_FOPheight);
+            Debug.Log(_FOPheight);
+            
         }
 
         private void Update()
@@ -42,8 +60,8 @@ namespace Player
             var newPos = transform.position + displacement;
 
             //clamping character movement
-            var clampedX = Mathf.Clamp(newPos.x, -xBound, xBound);
-            var clampedY = Mathf.Clamp(newPos.y, -yBound, yBound);
+            var clampedX = Mathf.Clamp(newPos.x, -_FOPwidth, _FOPwidth);
+            var clampedY = Mathf.Clamp(newPos.y, -_FOPheight, _FOPheight);
             var clampedPos = new Vector3(clampedX,clampedY,newPos.z);
 
 
