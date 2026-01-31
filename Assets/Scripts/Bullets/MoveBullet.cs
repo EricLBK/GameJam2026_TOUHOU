@@ -34,6 +34,7 @@ namespace Bullets
             float3 currentPos = transform.position;
             currentPos.x += b.Velocity.x * DeltaTime;
             currentPos.y += b.Velocity.y * DeltaTime;
+            b.Position = new Vector2(transform.position.x, transform.position.y);
 
             // 2. Bounds Check
             // if (currentPos.x < BoundsMin.x || currentPos.x > BoundsMax.x ||
@@ -79,10 +80,12 @@ namespace Bullets
 
             var distSq = math.distancesq(bullet.Position, PlayerPosition);
             var combinedRadius = bullet.Radius;
-            if (distSq < (combinedRadius * combinedRadius) + PlayerRadiusSq)
-            {
-                HitDetected.Value = 1;
-            }
+            // Debug.Log($"bullet pos: {bullet.Position}, player pos: {PlayerPosition}");
+            
+            if (!(distSq < (combinedRadius * combinedRadius) + PlayerRadiusSq) && HitDetected.Value == 1) return;
+            
+            HitDetected.Value = 1;
+            Debug.Log("Hit!");
         }
     }
 }

@@ -21,13 +21,16 @@ namespace Bullets
         private NativeArray<BulletData> _bulletData;
         private TransformAccessArray _transformAccessArray; // Special array for Transforms
         private List<GameObject> _bulletPool; // Keep track of GOs to destroy later
+        private NativeReference<int> _playerHitFlag;
         private int _nextBulletIndex;
 
         private JobHandle _moveHandle;
+        private JobHandle _collisionHandle;
 
         private void Start()
         {
             _bulletData = new NativeArray<BulletData>(maxBullets, Allocator.Persistent);
+            _playerHitFlag = new NativeReference<int>(Allocator.Persistent);
             _bulletPool = new List<GameObject>(maxBullets);
             _nextBulletIndex = 0;
             
@@ -51,7 +54,6 @@ namespace Bullets
         {
             SpawnTestBullets();
 
-            // Schedule the Transform Job
             var moveJob = new MoveBulletJob
             {
                 DeltaTime = Time.deltaTime,
@@ -61,15 +63,32 @@ namespace Bullets
             };
 
             _moveHandle = moveJob.Schedule(_transformAccessArray);
+            var playerPos = new float2(playerTransform.position.x, playerTransform.position.y);
+
+            var collisionJob = new CollisionJob
+            {
+                PlayerPosition = playerPos,
+                PlayerRadiusSq = playerHitBoxRadius * playerHitBoxRadius,
+                Bullets = _bulletData,
+                HitDetected = _playerHitFlag
+            };
+            _collisionHandle = collisionJob.Schedule(maxBullets, 64, _moveHandle);
+            if (_playerHitFlag.Value == 1)
+            {
+                
+            }
         }
 
         void LateUpdate()
         {
-            _moveHandle.Complete();
+            _collisionHandle.Complete();
         }
 
         public void SpawnBullet(Vector2 position, Vector2 velocity, float size = 10.0f)
         {
+            _collisionHandle.Complete();
+            _moveHandle.Complete();
+            
             for (var i = 0; i < maxBullets; i++)
             {
                 var index = (_nextBulletIndex + 1) % maxBullets;
@@ -92,8 +111,10 @@ namespace Bullets
 
         private void OnDestroy()
         {
+            _collisionHandle.Complete();
             _moveHandle.Complete();
             if (_bulletData.IsCreated) _bulletData.Dispose();
+            if (_playerHitFlag.IsCreated) _playerHitFlag.Dispose();
             if (_transformAccessArray.isCreated) _transformAccessArray.Dispose();
         }
 
@@ -104,7 +125,7 @@ namespace Bullets
              {
                  if (!_bulletData[i].IsActive)
                  {
-                     BulletData b = _bulletData[i];
+                     var b = _bulletData[i];
                      b.IsActive = true;
                      b.Velocity = new float2(UnityEngine.Random.Range(-100, 100f), UnityEngine.Random.Range(-100, 100f));
                      _bulletData[i] = b;
