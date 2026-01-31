@@ -39,13 +39,13 @@ namespace Player
             {
                 // Screen is too tall: Width is the constraint
                 _FOPwidth = _screenWidth*0.45f;
-                _FOPheight = _FOPwidth * _targetAspectRatio;
+                _FOPheight = _FOPwidth / _targetAspectRatio;
             }
             else
             {
                 // Screen is too wide: Height is the constraint
                 _FOPheight = _screenHeight*0.93f;
-                _FOPwidth = _FOPheight / _targetAspectRatio;
+                _FOPwidth = _FOPheight * _targetAspectRatio;
             }
         }
 

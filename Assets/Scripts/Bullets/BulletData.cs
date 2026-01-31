@@ -7,5 +7,5 @@ public struct BulletData
     public float2 Position;
     public float2 Velocity;
     public float Radius;
-    public int IsActive;
+    public bool IsActive;
 }
