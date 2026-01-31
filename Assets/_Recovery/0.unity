@@ -774,13 +774,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DiaolgueScript
   dialogueText: {fileID: 242408980}
   charName: {fileID: 480753248}
-  dialogue:
-    lines:
-    - 
-    - 
-    names:
-    - 
-    - 
+  lines:
+  - aa
+  - b
+  - cc
+  - dd
+  names:
+  - a
+  - b
+  - c
+  - d
   textSpeed: 0.02
   isFinished: 0
   index: 0

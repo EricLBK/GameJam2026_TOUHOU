@@ -1,76 +1,92 @@
-using System.Collections;
-using TMPro;
+using System;
 using UnityEngine;
+using TMPro;
 
-public class Dialogue : MonoBehaviour
+public class DialogueUI : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI charName;
 
-    [Header("Content (same length)")]
-    public string[] lines;
-    public string[] names;
+    [Header("Dialogue Data")]
+    public DialogueText dialogue;
 
     [Header("Typing")]
-    public float textSpeed = 0.02f;
+    [Min(0f)] public float textSpeed = 0.02f;
 
-    // Used by other scripts to wait for dialogue completion / react to progress
-    public bool isFinished = false;
+    public bool isFinished = true;
     public int index = 0;
 
-    void Start()
+    [Serializable]
+    public class DialogueText
     {
-        dialogueText.text = string.Empty;
-        StartDialogue();
-    }
+        [Header("Content (same length)")]
+        public string[] lines;
+        public string[] names;
 
-    void Update()
-    {
-        if (!Input.GetMouseButtonDown(0)) return; //Either it is pressed down this frame or it is not
-
-        // If current line is fully shown, go to next line; otherwise skip typing.
-        if (dialogueText.text == lines[index])
+        public int Count
         {
-            NextLine();
-        }
-        else
-        {
-            StopAllCoroutines();
-            dialogueText.text = lines[index];
+            get
+            {
+                int a = lines == null ? 0 : lines.Length;
+                int b = names == null ? 0 : names.Length;
+                return Mathf.Min(a, b);
+            }
         }
     }
 
-    void StartDialogue()
+#if UNITY_EDITOR
+    private void OnValidate()
     {
-        index = 0;
-        isFinished = false;
-        StartCoroutine(TypeLine());
-    }
+        if (dialogue == null) dialogue = new DialogueText();
 
-    IEnumerator TypeLine()
-    {
-        charName.text = names[index];
-        dialogueText.text = "";
-
-        foreach (char letter in lines[index].ToCharArray())
+        // Keep arrays same length in-editor
+        if (dialogue.lines != null && dialogue.names != null && dialogue.lines.Length != dialogue.names.Length)
         {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(textSpeed);
+            Debug.LogWarning("Dialogue lines and names must be same length.");
+
         }
-    }
 
-    void NextLine()
+        int count = dialogue.Count;
+        if (count == 0) index = 0;
+        else index = Mathf.Clamp(index, 0, count - 1);
+    }
+#endif
+
+    public void ShowCurrent()
     {
-        if (index < lines.Length - 1)
+        if (dialogue == null || dialogue.Count == 0)
         {
-            index++;
-            StartCoroutine(TypeLine());
-        }
-        else
-        {
+            if (dialogueText) dialogueText.text = "";
+            if (charName) charName.text = "";
             isFinished = true;
-            gameObject.SetActive(false); // hides the dialogue box object
+            return;
         }
+
+        index = Mathf.Clamp(index, 0, dialogue.Count - 1);
+
+        if (dialogueText) dialogueText.text = dialogue.lines[index] ?? "";
+        if (charName) charName.text = dialogue.names[index] ?? "";
+        isFinished = true;
+    }
+
+    public void Next()
+    {
+        if (dialogue == null) return;
+        int count = dialogue.Count;
+        if (count == 0) return;
+
+        index = Mathf.Min(index + 1, count - 1);
+        ShowCurrent();
+    }
+
+    public void Prev()
+    {
+        if (dialogue == null) return;
+        int count = dialogue.Count;
+        if (count == 0) return;
+
+        index = Mathf.Max(index - 1, 0);
+        ShowCurrent();
     }
 }
