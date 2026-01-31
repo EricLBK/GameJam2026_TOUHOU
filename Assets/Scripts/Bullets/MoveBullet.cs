@@ -66,7 +66,7 @@ namespace Bullets
         [ReadOnly] public NativeArray<BulletData> Bullets;
         
         [NativeDisableParallelForRestriction]
-        [WriteOnly] 
+        [WriteOnly]
         public NativeReference<int> HitDetected;
         
         
@@ -82,7 +82,7 @@ namespace Bullets
             var combinedRadius = bullet.Radius;
             // Debug.Log($"bullet pos: {bullet.Position}, player pos: {PlayerPosition}");
             
-            if (!(distSq < (combinedRadius * combinedRadius) + PlayerRadiusSq) && HitDetected.Value == 1) return;
+            if (!(distSq < (combinedRadius * combinedRadius) + PlayerRadiusSq)) return;
             
             HitDetected.Value = 1;
             Debug.Log("Hit!");

@@ -13,6 +13,7 @@ public class SpriteInit : MonoBehaviour
             return;
         var curSprite = Sprite.Create(bulletTexture, new Rect(0, 0, bulletTexture.width, bulletTexture.height),
             new Vector2(0.5f, 0.5f), 1.0f);
+            Debug.Log($"The height is:{bulletTexture.height}, The width is:{bulletTexture.width}");
         gameObject.GetComponent<SpriteRenderer>().sprite = curSprite;
         transform.localScale = new Vector3(0.25f, 0.25f, 1f);
     }
