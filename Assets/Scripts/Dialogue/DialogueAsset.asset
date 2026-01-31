@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueAsset
   lines:
   - speaker: 0
-    name: Reimu
-    text: One person says to another "hello my good sir"
-    leftPortraitKey: 
-    rightPortraitKey: 
+    name: PersonA
+    text: Hello PersonB i am PersonA and this is my dialogue
+    leftPortraitKey: A
+    rightPortraitKey: B
+  - speaker: 1
+    name: PersonB
+    text: Okay PersonB but i am person A and i don`t care
+    leftPortraitKey: A
+    rightPortraitKey: B
