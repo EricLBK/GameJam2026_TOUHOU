@@ -45,6 +45,9 @@ TagManager:
   - name: Player
     uniqueID: 2796962975
     locked: 0
+  - name: Bullets
+    uniqueID: 3991015569
+    locked: 0
   - name: Hitbox
     uniqueID: 871543913
     locked: 0

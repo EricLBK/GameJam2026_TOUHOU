@@ -24,7 +24,7 @@ namespace Bullets.Patterns
                 // Convert Angle to Velocity Vector
                 var velocity = DegreeToVector2(finalAngle) * (bulletSpeed + 60);
 
-                manager.SpawnBullet(emitter.position, velocity, bulletSize);
+                manager.SpawnBullet(emitter.position, velocity, 50);
             }
         }
 

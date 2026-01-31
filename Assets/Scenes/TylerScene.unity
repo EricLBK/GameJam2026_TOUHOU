@@ -374,7 +374,8 @@ MonoBehaviour:
   maxBullets: 2000
   bulletPrefab: {fileID: 6146749560070203269, guid: de27117a6def60f4ba27c63802050b6d, type: 3}
   playerTransform: {fileID: 5891222866680057044}
-  playerHitBoxRadius: 0
+  playerHitBoxRadius: 13
+  bulletRadius: 0
 --- !u!4 &1573050659
 Transform:
   m_ObjectHideFlags: 0
@@ -410,6 +411,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5915456611478375415, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5915456611478375415, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5915456611478375415, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
