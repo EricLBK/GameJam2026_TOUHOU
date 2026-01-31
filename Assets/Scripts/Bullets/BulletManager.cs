@@ -10,11 +10,12 @@ namespace Bullets
         [Header("Settings")]
         [SerializeField] private int maxBullets = 2000;
 
-        [SerializeField] private Texture2D texture2D;  
-        [SerializeField] private Mesh bulletMesh;
+        [SerializeField] private Texture2D bulletTexture;  
         [SerializeField] private Material baseMaterial; // The Unlit Instanced Material
         [SerializeField] private Rect bounds;
-
+        private Mesh _quadMesh;
+        private RenderParams _renderParams;
+        
         // Data Containers
         private NativeArray<BulletData> _bulletData;
         private NativeArray<Matrix4x4> _renderMatrices; // Required for DrawMeshInstanced
@@ -35,8 +36,18 @@ namespace Bullets
             _renderMatrices = new NativeArray<Matrix4x4>(maxBullets, Allocator.Persistent);
             _playerHitFlag = new NativeReference<int>(Allocator.Persistent);
 
-            // Pre-fill matrices to avoid 0,0,0 glitches (optional)
-            // Initialize pool with inactive bullets
+            _quadMesh = GenerateQuadMesh();
+            Material instanceMat = new Material(baseMaterial)
+            {
+                mainTexture = bulletTexture,
+                enableInstancing = true // Ensure logic handles this
+            };
+
+            _renderParams = new RenderParams(instanceMat)
+            {
+                shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                receiveShadows = false
+            };
         }
 
         void Update()
@@ -73,9 +84,17 @@ namespace Bullets
             };
             _collisionHandle = collisionJob.Schedule(maxBullets, 64, _moveHandle);
 
+            UpdateMatricesJob matrixJob = new UpdateMatricesJob
+            {
+                Bullets = _bulletData,
+                Matrices = _renderMatrices
+            };
+            JobHandle matrixHandle = matrixJob.Schedule(maxBullets, 64, _moveHandle);
+            
             // --- EXECUTE & COMPLETE ---
             // We force completion here to render immediately. 
             // In highly optimized code, you might delay completion to LateUpdate.
+            matrixHandle.Complete();
             _collisionHandle.Complete();
 
             // --- HANDLE RESULTS ---
@@ -84,52 +103,41 @@ namespace Bullets
                 Debug.Log("PLAYER DEAD");
                 _playerHitFlag.Value = 0; // Reset
             }
-
             // --- RENDER ---
+                
             RenderBullets();
+        }
+        // helper to generate Quad mesh
+        private Mesh GenerateQuadMesh()
+        {
+            var mesh = new Mesh
+            {
+                vertices = new[] {
+                    new Vector3(-0.5f, -0.5f, 0),
+                    new Vector3(0.5f, -0.5f, 0),
+                    new Vector3(-0.5f, 0.5f, 0),
+                    new Vector3(0.5f, 0.5f, 0)
+                },
+                uv = new[] {
+                    new Vector2(0, 0),
+                    new Vector2(1, 0),
+                    new Vector2(0, 1),
+                    new Vector2(1, 1)
+                },
+                triangles = new[] { 0, 2, 1, 2, 3, 1 }
+            };
+            return mesh;
         }
 
         private void RenderBullets()
         {
-            // We need to copy active positions to matrices
-            // NOTE: In a production environment, this copy should also be a Job!
-            // Copying 2000 structs on the main thread is a bottleneck.
-            
-            // Array for Graphics.DrawMeshInstanced (limited to 1023 per batch usually, 
-            // so we loop or use DrawMeshInstancedIndirect). 
-            // For simplicity, here is the matrix construction logic:
-            
-            // This is the "Expensive" part on the Main Thread if not jobified:
-            int activeCount = 0;
-            Matrix4x4[] batch = new Matrix4x4[maxBullets]; // Heap allocation warning! Reuse this array in real code.
-            
-            for (int i = 0; i < maxBullets; i++)
+            _renderParams = new RenderParams
             {
-                if (_bulletData[i].IsActive == 1)
-                {
-                    var pos = _bulletData[i].Position;
-                    // Create matrix (Translation, Rotation, Scale)
-                    batch[activeCount] = Matrix4x4.TRS(
-                        new Vector3(pos.x, pos.y, 0), 
-                        Quaternion.identity, 
-                        Vector3.one * 0.2f // Bullet Scale
-                    );
-                    activeCount++;
-                }
-            }
-
-            // Draw
-            if (activeCount > 0)
-            {
-                // Note: DrawMeshInstanced draws max 1023 meshes per call. You need to slice the array.
-                // Or use RenderParams with Graphics.RenderMesh (Unity 2021+)
-                for (int i = 0; i < activeCount; i += 1023)
-                {
-                    int count = Mathf.Min(1023, activeCount - i);
-                    // Create a slice (pseudo-code, DrawMeshInstanced takes an array and offset)
-                    Graphics.DrawMeshInstanced(bulletMesh, 0, baseMaterial, batch, count, null, UnityEngine.Rendering.ShadowCastingMode.Off, false, 0, null, UnityEngine.Rendering.LightProbeUsage.Off, null);
-                }
-            }
+                shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                receiveShadows = false,
+                matProps = new MaterialPropertyBlock()
+            };
+            Graphics.RenderMeshInstanced(_renderParams, _quadMesh, 0, _renderMatrices);
         }
 
         private void OnDestroy()
@@ -143,7 +151,7 @@ namespace Bullets
         // Temporary spawner for testing
         void SpawnTestBullets()
         {
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.B))
             {
                 for (int i = 0; i < maxBullets; i++)
                 {
