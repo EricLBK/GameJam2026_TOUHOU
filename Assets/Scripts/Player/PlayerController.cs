@@ -6,6 +6,8 @@ namespace Player
     {
         [SerializeField] private float normalSpeed = 400.0f;
         [SerializeField] private float focusSpeed = 160.0f;
+        [SerializeField] public float xBound = 600.0f;
+        [SerializeField] public float yBound = 720.0f;
 
         [SerializeField] private GameObject hitBoxSprite;
         private bool _isHitBoxSpriteNotNull;
@@ -39,7 +41,14 @@ namespace Player
             Vector3 displacement = inputDir * (curSpeed * Time.deltaTime);
             var newPos = transform.position + displacement;
 
-            transform.position = newPos;
+            //clamping character movement
+            var clampedX = Mathf.Clamp(newPos.x, -xBound, xBound);
+            var clampedY = Mathf.Clamp(newPos.y, -yBound, yBound);
+            var clampedPos = new Vector3(clampedX,clampedY,newPos.z);
+
+
+
+            transform.position = clampedPos;
         }
     }
 }
