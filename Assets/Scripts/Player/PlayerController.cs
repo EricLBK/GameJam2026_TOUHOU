@@ -6,15 +6,14 @@ namespace Player
     {
         [SerializeField] private float normalSpeed = 400.0f;
         [SerializeField] private float focusSpeed = 160.0f;
-        // [SerializeField] public float xBound = 600.0f;
-        // [SerializeField] public float yBound = 720.0f;
+
         private float _screenHeight;
         private float _screenWidth;
         
         private float _FOPheight;
         private float _FOPwidth;
         
-        private readonly float _targetAspectRatio = 730f/850f; // the ratio of 730/850 needs to be maintained for the field of play
+        private readonly float _targetAspectRatio = 730f/850f; // the ratio of 730/850 needs to be maintained for the field of play (w/h)
 
 
         [SerializeField] private GameObject hitBoxSprite;

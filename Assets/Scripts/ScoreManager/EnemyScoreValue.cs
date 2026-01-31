@@ -19,8 +19,8 @@ public class EnemyScoreValue : MonoBehaviour
             ScoreKeeper.Instance.AddKill(baseScore);
 
         // 2) spawn souls
-        if (SoulManager.Instance != null)
-            SoulManager.Instance.SpawnBurst(transform.position, soulsToDrop, soulValue);
+        if (ItemManager.Instance != null)
+            ItemManager.Instance.SpawnSoulBurst(transform.position, soulsToDrop);
 
         // 3) death visual
         if (enemyDeadPrefab != null)

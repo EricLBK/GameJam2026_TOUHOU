@@ -1,11 +1,11 @@
+// attach this on an empty GameObject in your first scene to test
+
 using UnityEngine;
 
 public class SoulTestSpawner : MonoBehaviour
 {
-    [SerializeField] public int count = 10;
+    [SerializeField] public int count = 1;
     [SerializeField] public int value = 50;
-
-    // For pixel-art worlds, keep this small at first (like 1–5 world units)
     [SerializeField] public float radius = 500f;
 
     void Update()
@@ -17,7 +17,7 @@ public class SoulTestSpawner : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Vector2 pos = center + Random.insideUnitCircle * radius;
-            SoulManager.Instance.Spawn(pos, value);
+            ItemManager.Instance.SpawnSoul(pos);
             Debug.Log("Spawned soul at: " + pos);
         }
     }
