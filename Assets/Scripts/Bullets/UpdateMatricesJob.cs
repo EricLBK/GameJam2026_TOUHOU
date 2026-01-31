@@ -1,10 +1,12 @@
-﻿using Unity.Collections;
+﻿using Unity.Burst;
+using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace Bullets
 {
+    [BurstCompile]
     public struct UpdateMatricesJob : IJobParallelFor
     {
         [ReadOnly] public NativeArray<BulletData> Bullets;
