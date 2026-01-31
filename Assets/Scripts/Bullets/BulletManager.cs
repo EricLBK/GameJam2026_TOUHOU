@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Jobs; // REQUIRED
 using Unity.Collections;
 using Unity.Jobs;
@@ -11,27 +12,30 @@ namespace Bullets
     {
         public Rect bounds;
         public int maxBullets = 2000;
-        public GameObject bulletPrefab; // Drag your Sprite Prefab here!
+        public GameObject bulletPrefab;
+        
         public Transform playerTransform;
+        public float playerHitBoxRadius;
 
         // Data
         private NativeArray<BulletData> _bulletData;
         private TransformAccessArray _transformAccessArray; // Special array for Transforms
         private List<GameObject> _bulletPool; // Keep track of GOs to destroy later
+        private int _nextBulletIndex;
 
         private JobHandle _moveHandle;
 
-        void Start()
+        private void Start()
         {
             _bulletData = new NativeArray<BulletData>(maxBullets, Allocator.Persistent);
             _bulletPool = new List<GameObject>(maxBullets);
+            _nextBulletIndex = 0;
             
-            // 1. Pre-instantiate all GameObjects (Object Pooling)
             var transforms = new Transform[maxBullets];
-            for (int i = 0; i < maxBullets; i++)
+            for (var i = 0; i < maxBullets; i++)
             {
-                GameObject go = Instantiate(bulletPrefab, transform); // Child of Manager
-                go.SetActive(true); // Keep active, we hide them by moving them away
+                var go = Instantiate(bulletPrefab, transform);
+                go.SetActive(true);
                 _bulletPool.Add(go);
                 transforms[i] = go.transform;
                 
@@ -43,7 +47,7 @@ namespace Bullets
             _transformAccessArray = new TransformAccessArray(transforms);
         }
 
-        void Update()
+        private void Update()
         {
             SpawnTestBullets();
 
@@ -56,13 +60,34 @@ namespace Bullets
                 Bullets = _bulletData
             };
 
-            // Note: Schedule is slightly different for TransformAccessArray
             _moveHandle = moveJob.Schedule(_transformAccessArray);
         }
 
         void LateUpdate()
         {
             _moveHandle.Complete();
+        }
+
+        public void SpawnBullet(Vector2 position, Vector2 velocity, float size = 10.0f)
+        {
+            for (var i = 0; i < maxBullets; i++)
+            {
+                var index = (_nextBulletIndex + 1) % maxBullets;
+                if (_bulletData[index].IsActive) continue;
+                
+                var b = _bulletData[index];
+                b.IsActive = true;
+                b.Position = position;
+                b.Velocity = velocity;
+                b.Radius = size;
+                _bulletData[index] = b;
+
+                var t = _bulletPool[index].transform;
+                t.position = position;
+                
+                _nextBulletIndex = (index + 1) % maxBullets;
+                return;
+            }
         }
 
         private void OnDestroy()
@@ -74,10 +99,6 @@ namespace Bullets
 
         void SpawnTestBullets()
         {
-            // Same logic as before, but ensure you set the Transform position too!
-             // Since the Job runs every frame, setting _bulletData position isn't enough
-             // The Job reads from Transform.position.
-
              if (!Input.GetKey(KeyCode.B)) return;
              for (int i = 0; i < maxBullets; i++)
              {
