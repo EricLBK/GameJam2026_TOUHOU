@@ -16,6 +16,7 @@ namespace Bullets
         
         public Transform playerTransform;
         public float playerHitBoxRadius;
+        public float bulletRadius;
 
         // Data
         private NativeArray<BulletData> _bulletData;
@@ -23,6 +24,7 @@ namespace Bullets
         private List<GameObject> _bulletPool; // Keep track of GOs to destroy later
         private NativeReference<int> _playerHitFlag;
         private int _nextBulletIndex;
+        private Vector3 _spriteSize;
 
         private JobHandle _moveHandle;
         private JobHandle _collisionHandle;
@@ -38,6 +40,17 @@ namespace Bullets
             for (var i = 0; i < maxBullets; i++)
             {
                 var go = Instantiate(bulletPrefab, transform);
+                var sr = bulletPrefab.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    _spriteSize = sr.sprite.bounds.size;
+                    var newScale = new Vector3(
+                        (bulletRadius * 2) / _spriteSize.x, 
+                        (bulletRadius * 2) / _spriteSize.y, 
+                        1f 
+                    );
+                    go.transform.localScale = newScale;
+                }
                 go.SetActive(true);
                 _bulletPool.Add(go);
                 transforms[i] = go.transform;
@@ -73,18 +86,18 @@ namespace Bullets
                 HitDetected = _playerHitFlag
             };
             _collisionHandle = collisionJob.Schedule(maxBullets, 64, _moveHandle);
+        }
+
+        void LateUpdate()
+        {
+            _collisionHandle.Complete();
             if (_playerHitFlag.Value == 1)
             {
                 
             }
         }
 
-        void LateUpdate()
-        {
-            _collisionHandle.Complete();
-        }
-
-        public void SpawnBullet(Vector2 position, Vector2 velocity, float size = 10.0f)
+        public void SpawnBullet(Vector2 position, Vector2 velocity, float radius = 10.0f)
         {
             _collisionHandle.Complete();
             _moveHandle.Complete();
@@ -98,11 +111,16 @@ namespace Bullets
                 b.IsActive = true;
                 b.Position = position;
                 b.Velocity = velocity;
-                b.Radius = size;
+                b.Radius = radius;
                 _bulletData[index] = b;
 
                 var t = _bulletPool[index].transform;
                 t.position = position;
+                t.localScale = new Vector3(
+                    (radius * 2) / _spriteSize.x, 
+                    (radius * 2) / _spriteSize.y, 
+                    1f 
+                );
                 
                 _nextBulletIndex = (index + 1) % maxBullets;
                 return;
