@@ -36,7 +36,7 @@ namespace Bullets
                 transforms[i] = go.transform;
                 
                 // Initialize Data
-                _bulletData[i] = new BulletData { IsActive = 0 };
+                _bulletData[i] = new BulletData { IsActive = false };
             }
 
             // 2. Create the TransformAccessArray
@@ -81,10 +81,10 @@ namespace Bullets
              if (!Input.GetKey(KeyCode.B)) return;
              for (int i = 0; i < maxBullets; i++)
              {
-                 if (_bulletData[i].IsActive == 0)
+                 if (!_bulletData[i].IsActive)
                  {
                      BulletData b = _bulletData[i];
-                     b.IsActive = 1;
+                     b.IsActive = true;
                      b.Velocity = new float2(UnityEngine.Random.Range(-100, 100f), UnityEngine.Random.Range(-100, 100f));
                      _bulletData[i] = b;
                      // Manually place the bullet for the start

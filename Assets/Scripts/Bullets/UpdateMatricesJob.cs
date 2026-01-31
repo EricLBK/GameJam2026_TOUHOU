@@ -14,7 +14,7 @@ namespace Bullets
         public void Execute(int index)
         {
             var b = Bullets[index];
-            if (b.IsActive == 0) { Matrices[index] = Matrix4x4.zero; return; }
+            if (!b.IsActive) { Matrices[index] = Matrix4x4.zero; return; }
             
             var angle = math.atan2(b.Velocity.y, b.Velocity.x);
             var rot = quaternion.RotateZ(angle);

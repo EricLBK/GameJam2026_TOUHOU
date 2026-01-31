@@ -22,7 +22,7 @@ namespace Bullets
         public void Execute(int index, TransformAccess transform)
         {
             var b = Bullets[index];
-            if (b.IsActive == 0) 
+            if (!b.IsActive) 
             {
                 // Optional: Hide inactive bullets by moving them far away
                 // Real pooling would disable the GameObject, but we can't do that in a Job.
@@ -72,7 +72,7 @@ namespace Bullets
         public void Execute(int index)
         {
             var bullet = Bullets[index];
-            if (bullet.IsActive == 0)
+            if (!bullet.IsActive)
             {
                 return;
             }
