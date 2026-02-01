@@ -20,6 +20,34 @@ namespace Bullets
 
     public delegate IEnumerator BulletPattern(BulletManager manager, float2 initPosition);
 
+    public class Shots
+    {
+        public static void Spread(
+            BulletManager manager,
+            float2 initPos,
+            float2 targetPos,
+            float bulletSpeed = 300f,
+            float spreadDegrees = 8f,
+            int spreadCount = 2,
+            BulletPath path = null,
+            BulletPrefab prefab = null
+        )
+        {
+            float2 aimDir = math.normalize(targetPos - initPos);
+            float baseDeg = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+
+            // mirrored around center
+            for (int k = -spreadCount; k <= spreadCount; k++)
+            {
+                float deg = baseDeg + (k * spreadDegrees);
+                float2 vel = Util.DegreeToVector2(deg) * bulletSpeed;
+
+                // SpawnBullet expects float2 velocity in your BulletManager signature
+                manager.SpawnBullet(position: initPos, velocity: vel, path: path, prefab: prefab);
+            }
+        }
+    }
+
     public class Patterns
     {
         public static BulletPattern Spiral(
@@ -94,26 +122,16 @@ namespace Bullets
             {
                 for (; ; )
                 {
-                    Vector2 initPositionV2 = new Vector2(initPosition.x, initPosition.y);
-                    Vector2 targetPos = target.position;
-
-                    Vector2 aimDir = (targetPos - initPositionV2).normalized;
-                    float baseDeg = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
-
-                    // 5 bullets: -2, -1, 0, +1, +2 (mirrored around center)
-                    for (int k = -2; k <= 2; k++)
-                    {
-                        float deg = baseDeg + (k * spreadDegrees);
-                        Vector2 vel = Util.DegreeToVector2(deg) * bulletSpeed;
-
-                        // SpawnBullet expects float2 velocity in your BulletManager signature
-                        manager.SpawnBullet(
-                            position: initPosition,
-                            velocity: (float2)vel,
-                            path: path,
-                            prefab: prefab
-                        );
-                    }
+                    Shots.Spread(
+                        manager,
+                        initPosition,
+                        (float2)(Vector2)target.position,
+                        bulletSpeed: bulletSpeed,
+                        spreadDegrees: spreadDegrees,
+                        spreadCount: 2,
+                        path: path,
+                        prefab: prefab
+                    );
 
                     yield return new WaitForSeconds(firePeriod);
                 }
