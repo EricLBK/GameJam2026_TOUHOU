@@ -335,7 +335,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1573050657
+--- !u!1 &1809045489
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -343,66 +343,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1573050659}
-  - component: {fileID: 1573050658}
-  - component: {fileID: 1573050660}
+  - component: {fileID: 1809045491}
+  - component: {fileID: 1809045490}
   m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Manager
+  m_Name: EnemyManager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1573050658
+--- !u!114 &1809045490
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573050657}
+  m_GameObject: {fileID: 1809045489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 065d56309a7f43c89595d264124daf19, type: 3}
+  m_Script: {fileID: 11500000, guid: 9fc0182316ac4c86b19d472d671df724, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Bullets.BulletManager
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy.EnemyManager
+  enemyPrefab: {fileID: 472710170271224162, guid: 635e018d8e6509c45bb31824db6eb3cd, type: 3}
   bounds:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  maxBullets: 2000
-  bulletPrefab: {fileID: 6146749560070203269, guid: de27117a6def60f4ba27c63802050b6d, type: 3}
-  playerTransform: {fileID: 5891222866680057044}
-  playerHitBoxRadius: 13
-  bulletRadius: 0
---- !u!4 &1573050659
+    x: -1000
+    y: -1000
+    width: 1000
+    height: 1000
+--- !u!4 &1809045491
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573050657}
+  m_GameObject: {fileID: 1809045489}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 400, z: 0}
+  m_LocalPosition: {x: -137.12984, y: -53.20853, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1573050660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573050657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f17bf1e798b4612a55c8b8c82757c62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Bullets.PatternEmitter
 --- !u!1001 &5891222866680057043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -468,11 +451,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
---- !u!4 &5891222866680057044 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5915456611478375415, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
-  m_PrefabInstance: {fileID: 5891222866680057043}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -480,4 +458,4 @@ SceneRoots:
   - {fileID: 758539685}
   - {fileID: 1129587453}
   - {fileID: 5891222866680057043}
-  - {fileID: 1573050659}
+  - {fileID: 1809045491}
