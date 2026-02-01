@@ -25,20 +25,20 @@ MonoBehaviour:
 '
     leftPortraitKey: Empty
     rightPortraitKey: reimu_shock_2
-  - speaker: 0
+  - speaker: 1
     name: Remu
     text: 'Too bad Marisa isn''t here, hope she''s having fun with the other magicians
 
 '
     leftPortraitKey: Empty
     rightPortraitKey: reimu_normal
-  - speaker: 0
+  - speaker: 1
     name: Reimu
     text: 'This just means I am on my own today, oh well! Guess those overambitious
       devs just run out of time to implement her! '
     leftPortraitKey: Empty
     rightPortraitKey: reimu_cocky
-  - speaker: 1
+  - speaker: 0
     name: Evil fairy
     text: 'Hunting hunting! You smell like human! Hand over your tasty drink!
 
@@ -52,7 +52,7 @@ MonoBehaviour:
 '
     leftPortraitKey: fairy_1_normal
     rightPortraitKey: reimu_cocky
-  - speaker: 1
+  - speaker: 0
     name: Evil fairy
     text: 'If you don''t hand it over it, I will just take it from your body! '
     leftPortraitKey: fairy_1_normal
