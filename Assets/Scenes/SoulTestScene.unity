@@ -130,9 +130,6 @@ GameObject:
   - component: {fileID: 74094514}
   - component: {fileID: 74094513}
   - component: {fileID: 74094512}
-  - component: {fileID: 74094515}
-  - component: {fileID: 74094516}
-  - component: {fileID: 74094517}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -193,42 +190,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &74094515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74094511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fc995c221449014a802091a473e7e6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
---- !u!114 &74094516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74094511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9901dcf2156ea0a4094719d1f6295151, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
---- !u!114 &74094517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74094511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b53cadaf94170a46b8dfbbfbe85ece4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsDebugHUD
 --- !u!1 &245241621
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,8 +331,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7835678334348867616, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1795741228}
   m_SourcePrefab: {fileID: 100100000, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
+--- !u!1 &1795741222 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7835678334348867616, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
+  m_PrefabInstance: {fileID: 281167450}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1795741228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795741222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b53cadaf94170a46b8dfbbfbe85ece4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsDebugHUD
 --- !u!1 &1919966953
 GameObject:
   m_ObjectHideFlags: 0
