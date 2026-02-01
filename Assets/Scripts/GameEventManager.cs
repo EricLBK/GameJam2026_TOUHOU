@@ -21,7 +21,7 @@ public class GameEventManager : MonoBehaviour
             MethodToRun = method;
         } 
     }
-    private List<TimedEvent> eventQueue = new List<TimedEvent>();
+    private List<TimedEvent> _eventQueue = new List<TimedEvent>();
     private float _timer;
     private bool _isPaused;
     private bool _isRunning;
@@ -41,23 +41,20 @@ public class GameEventManager : MonoBehaviour
     {
         if (_isPaused || !_isRunning) return;
 
-        // Advance timer
         _timer += Time.deltaTime;
 
-        // Check if we have events left and if the timer has passed the next event's trigger time
-        if (eventQueue.Count > 0 && _timer >= eventQueue[0].triggerTime)
+        if (_eventQueue.Count > 0 && _timer >= _eventQueue[0].triggerTime)
         {
-            StartCoroutine(ProcessEvent(eventQueue[0]));
+            StartCoroutine(ProcessEvent(_eventQueue[0]));
         }
 
     }
 
     public void ScheduleEvent(float time, Func<IEnumerator> method)
     {
-        eventQueue.Add(new TimedEvent(time, method));
+        _eventQueue.Add(new TimedEvent(time, method));
         
-        // Sort the events by time so we always look at the earliest one first
-        eventQueue = eventQueue.OrderBy(e => e.triggerTime).ToList();
+        _eventQueue = _eventQueue.OrderBy(e => e.triggerTime).ToList();
     }
 
     public void BeginTimeline()
@@ -72,7 +69,7 @@ public class GameEventManager : MonoBehaviour
     {
         _isPaused = true;
         
-        eventQueue.RemoveAt(0);
+        _eventQueue.RemoveAt(0);
 
         Debug.Log($"Event Triggered at {gameEvent.triggerTime}s. Pausing timer...");
 
@@ -87,7 +84,6 @@ public class GameEventManager : MonoBehaviour
     
     public void JumpToTime(float newTime)
     {
-        // Only jump forward, never backward
         if (!(newTime > _timer)) return;
         _timer = newTime;
         Debug.Log($"Timer forwarded to {_timer}");
@@ -95,8 +91,8 @@ public class GameEventManager : MonoBehaviour
     
     public void SkipToNextEvent()
     {
-        if (eventQueue.Count <= 0) return;
-        var nextTime = eventQueue[0].triggerTime;
+        if (_eventQueue.Count <= 0) return;
+        var nextTime = _eventQueue[0].triggerTime;
         JumpToTime(nextTime);
     }
 }

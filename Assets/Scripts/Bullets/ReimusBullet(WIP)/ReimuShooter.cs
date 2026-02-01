@@ -1,3 +1,4 @@
+using System;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace Bullets
     {
         [Header("Refs")]
         public BulletManager bulletManager;
+
+        private BulletPrefab _prefab;
 
         [Header("Input")]
         public KeyCode fireKey = KeyCode.Z;
@@ -85,8 +88,8 @@ namespace Bullets
                 bulletManager.SpawnBullet(
                     position: new float2(lanePos2.x, lanePos2.y),
                     velocity: vel,
-                    path: null,
-                    isPlayerBullet: true
+                    isPlayerBullet: true,
+                    prefab: BulletPrefabs.Load().spell2
                 );
             }
         }
@@ -114,7 +117,8 @@ namespace Bullets
                     position: new float2(spawnV2.x, spawnV2.y),
                     velocity: (float2)vel2,
                     path: pathForThisBullet,
-                    isPlayerBullet: true
+                    isPlayerBullet: true,
+                    prefab: BulletPrefabs.Load().spell1
                 );
             }
         }

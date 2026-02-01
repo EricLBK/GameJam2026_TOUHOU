@@ -25,7 +25,11 @@ namespace Bullets
         // The "Execute" signature is different for Transform jobs
         public void Execute(int index, TransformAccess transform)
         {
-            if (!IsActive[index]) { return; }
+            if (!IsActive[index])
+            {
+                transform.position = FAR_AWAY;
+                return;
+            }
 
             // 1. Update Position Logic
             var v = Velocity[index];
@@ -61,7 +65,7 @@ namespace Bullets
     {
         public float2 PlayerPosition;
         public float PlayerRadiusSq; // squared radius
-        [ReadOnly] public BulletData Bullets;
+        public BulletData Bullets;
 
         [NativeDisableParallelForRestriction]
         [WriteOnly]
@@ -70,7 +74,7 @@ namespace Bullets
 
         public void Execute(int index)
         {
-            if (!Bullets.IsActive[index])
+            if (!Bullets.IsActive[index] || Bullets.IsPlayerBullet[index])
             {
                 return;
             }
@@ -82,7 +86,7 @@ namespace Bullets
             if (!(distSq < (combinedRadius * combinedRadius) + PlayerRadiusSq)) return;
 
             HitDetected.Value = 1;
-            // Debug.Log("Hit!");
+            Bullets.IsActive[index] = false;
         }
     }
 }

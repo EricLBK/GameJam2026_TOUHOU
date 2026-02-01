@@ -90,7 +90,11 @@ namespace Bullets
 
         void LateUpdate()
         {
-            if (_playerHitFlag.Value == 1) { }
+            if (_playerHitFlag.Value == 1)
+            {
+                Debug.Log("Hit!");
+                _playerHitFlag.Value = 0;
+            }
         }
 
         private void OnDestroy()
@@ -134,7 +138,7 @@ namespace Bullets
             bool isPlayerBullet = false
         )
         {
-            prefab = prefab ??= bulletPrefabs.blue;
+            prefab ??= bulletPrefabs.blue;
 
             int i = FindNextSlot();
             if (i == -1)

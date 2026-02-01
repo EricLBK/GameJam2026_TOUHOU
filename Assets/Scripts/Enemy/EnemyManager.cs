@@ -12,7 +12,6 @@ namespace Enemy
     {
 
         [SerializeField] private GameObject enemyPrefab;
-        [SerializeField] private Sprite testSprite;
         private Queue<EnemyController> _pool;
         private Vector3 _scale;
         private BulletManager _bulletManager;

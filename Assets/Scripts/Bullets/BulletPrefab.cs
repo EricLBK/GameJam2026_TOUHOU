@@ -25,7 +25,8 @@ namespace Bullets
         public BulletPrefab purple;
         public BulletPrefab purple2;
         public BulletPrefab red;
-        public BulletPrefab spell;
+        public BulletPrefab spell1;
+        public BulletPrefab spell2;
 
         public static BulletPrefabs Load()
         {
@@ -51,10 +52,14 @@ namespace Bullets
                 {
                     prefab = Resources.Load<GameObject>("Prefab/Bullets/Pink"),
                 },
-                spell = new BulletPrefab
+                spell1 = new BulletPrefab
                 {
-                    prefab = Resources.Load<GameObject>("Prefab/Bullets/Spell1_0"),
+                    prefab = Resources.Load<GameObject>("Prefab/Bullets/Reimu"),
                 },
+                spell2 = new BulletPrefab
+                {
+                    prefab = Resources.Load<GameObject>("Prefab/Bullets/Reimu2"),
+                } 
             };
         }
     }
