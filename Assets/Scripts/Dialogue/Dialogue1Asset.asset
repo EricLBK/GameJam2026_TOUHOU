@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d59c8c10f642541826382d940e3b24, type: 3}
+  m_Name: Dialogue1Asset
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueAsset
+  lines:
+  - speaker: 1
+    name: Remu
+    text: There are so many fairies today, and what's up with their eyes?
+    leftPortraitKey: Empty
+    rightPortraitKey: reimu_normal
+  - speaker: 1
+    name: Remu
+    text: 'Why do they have way more energy than usual?
+
+'
+    leftPortraitKey: Empty
+    rightPortraitKey: reimu_shock_2
+  - speaker: 0
+    name: Remu
+    text: 'Too bad Marisa isn''t here, hope she''s having fun with the other magicians
+
+'
+    leftPortraitKey: Empty
+    rightPortraitKey: reimu_normal
+  - speaker: 0
+    name: Reimu
+    text: 'This just means I am on my own today, oh well! Guess those overambitious
+      devs just run out of time to implement her! '
+    leftPortraitKey: Empty
+    rightPortraitKey: reimu_cocky
+  - speaker: 1
+    name: Evil fairy
+    text: 'Hunting hunting! You smell like human! Hand over your tasty drink!
+
+'
+    leftPortraitKey: fairy_1_normal
+    rightPortraitKey: reimu_normal
+  - speaker: 1
+    name: Remu
+    text: 'What are you talking about? Drinks?
+
+'
+    leftPortraitKey: fairy_1_normal
+    rightPortraitKey: reimu_cocky
+  - speaker: 1
+    name: Evil fairy
+    text: 'If you don''t hand it over it, I will just take it from your body! '
+    leftPortraitKey: fairy_1_normal
+    rightPortraitKey: reimu_cocky
+  - speaker: 1
+    name: Remu
+    text: 'Well good luck with that!
+
+'
+    leftPortraitKey: fairy_1_normal
+    rightPortraitKey: reimu_angry
