@@ -15,6 +15,16 @@ namespace Enemy
         [SerializeField] private float maxHP = 10f;
         [SerializeField] private float speed = 0.5f; // 0.5 means 2 seconds to finish path
 
+        [Header("Rewards")]
+        [Tooltip("Base points awarded when this enemy is killed by the player.")]
+        [SerializeField] private int pointsOnKill = 100;
+
+        [Tooltip("How many Souls to drop when killed by the player.")]
+        [SerializeField] private int soulsToDrop = 1;
+        
+        private Transform player;
+        private PlayerStats stats;
+
         private float _hitRadius;
         private float _currentHP;
         private float _pathProgress; // 't' value (0.0 to 1.0)
@@ -62,6 +72,11 @@ namespace Enemy
         {
             MoveAlongPath();
             CheckBounds();
+            if (stats == null)
+            {
+                ResolveRefs();
+                return;
+            }
         }
 
         private void MoveAlongPath()
@@ -80,13 +95,11 @@ namespace Enemy
             // 1. Check if path is finished
             if (_pathProgress >= 1f)
             {
-                Kill(false); // Despawn without explosion
+                Kill(false); // Despawn without rewards
                 return;
             }
 
             if (!(_pathProgress % 0.25f <= 0.02f)) return;
-
-  
 
             // bounds checks omitted (as in your code)
         }
@@ -98,7 +111,7 @@ namespace Enemy
 
             if (_currentHP <= 0)
             {
-                Kill(true); // Die with explosion
+                Kill(true); // Die with explosion / rewards
             }
         }
 
@@ -107,7 +120,18 @@ namespace Enemy
             if (explode)
             {
                 // Instantiate Explosion Particle
-                // Drop Loot
+
+                // --- Rewards (only when actually killed) ---
+                if (pointsOnKill > 0 && ScoreKeeper.Instance != null)
+                    ScoreKeeper.Instance.AddScore(pointsOnKill);
+                    stats.AddKills(1);
+
+                if (soulsToDrop > 0 && ItemManager.Instance != null)
+                {
+                    Vector2 p = transform.position;
+                    if (soulsToDrop == 1) ItemManager.Instance.SpawnSoul(p);
+                    else ItemManager.Instance.SpawnSoulBurst(p, soulsToDrop);
+                }
             }
 
             // Return to pool
@@ -128,6 +152,21 @@ namespace Enemy
 
             min = c - h;
             max = c + h;
+        }
+        void ResolveRefs()
+        {
+            if (PlayerRegistry.PlayerTransform != null) player = PlayerRegistry.PlayerTransform;
+            if (PlayerRegistry.PlayerStats != null) stats = PlayerRegistry.PlayerStats;
+
+            if (player == null)
+            {
+                var go = GameObject.FindGameObjectWithTag("Player");
+                if (go != null) player = go.transform;
+            }
+            if (stats == null && player != null)
+                stats = player.GetComponent<PlayerStats>();
+
+            if (stats == null) stats = PlayerStats.Instance;
         }
     }
 }

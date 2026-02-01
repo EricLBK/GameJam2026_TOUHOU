@@ -20,11 +20,13 @@ public class PlayerStats : MonoBehaviour
     public int lives { get; private set; }
     public int bombs { get; private set; }
     public int souls { get; private set; }
+    public int kills { get; private set; }
 
     // Events
     public event Action<int> OnLivesChanged;
     public event Action<int> OnBombsChanged;
     public event Action<int> OnSoulsChanged;
+    public event Action<int> OnKillsChanged;
 
     // Optional: one event to refresh *all* UI in one go
     public event Action OnStatsChanged;
@@ -45,6 +47,7 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         Initialize();
+        Instance = this;
     }
 
     /// <summary>
@@ -58,11 +61,13 @@ public class PlayerStats : MonoBehaviour
         lives = Mathf.Clamp(startingLives, 0, maxLives);
         bombs = Mathf.Clamp(startingBombs, 0, maxBombs);
         souls = 0;
+        kills = 0;
 
         // Fire events so UI updates immediately
         OnLivesChanged?.Invoke(lives);
         OnBombsChanged?.Invoke(bombs);
         OnSoulsChanged?.Invoke(souls);
+        OnKillsChanged?.Invoke(kills);
         OnStatsChanged?.Invoke();
     }
 
@@ -133,6 +138,15 @@ public class PlayerStats : MonoBehaviour
 
         souls += amount;
         OnSoulsChanged?.Invoke(souls);
+        OnStatsChanged?.Invoke();
+    }
+    public void AddKills(int amount)
+    {
+        Debug.Log($"[Pickup] modifying stats instance={this.GetInstanceID()}");
+        if (amount <= 0) return;
+
+        kills += amount;
+        OnKillsChanged?.Invoke(souls);
         OnStatsChanged?.Invoke();
     }
 

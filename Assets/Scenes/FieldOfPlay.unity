@@ -214,11 +214,6 @@ MonoBehaviour:
   comboResetTime: 2.5
   comboThresholds: 000000000a000000190000003200000064000000
   multipliers: 0100000002000000030000000400000005000000
-  grazePoints: 10
-  pickupSmallPoints: 50
-  pickupBigPoints: 200
-  resetOnHit: 1
-  bombDropsOneTier: 1
 --- !u!4 &1754451485
 Transform:
   m_ObjectHideFlags: 0
@@ -431,8 +426,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoulManager
   soulPrefab: {fileID: 0}
-  player: {fileID: 0}
-  playerPickupRadius: 1
+  extraLifePrefab: {fileID: 0}
+  bombPrefab: {fileID: 0}
+  burstRadius: 10
 --- !u!114 &2145896470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,11 +446,6 @@ MonoBehaviour:
   comboResetTime: 2.5
   comboThresholds: 000000000a000000190000003200000064000000
   multipliers: 0100000002000000030000000400000005000000
-  grazePoints: 10
-  pickupSmallPoints: 50
-  pickupBigPoints: 200
-  resetOnHit: 1
-  bombDropsOneTier: 1
 --- !u!4 &2145896471
 Transform:
   m_ObjectHideFlags: 0

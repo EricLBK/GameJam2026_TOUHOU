@@ -15,6 +15,7 @@ public class RightPanelUI : MonoBehaviour
 
     [Header("Player")]
     public TMP_Text soulsText;
+    public TMP_Text killsText;
 
     // Optional numeric counters (leave unassigned if you don't want them)
     public TMP_Text livesCountText;
@@ -56,10 +57,12 @@ public class RightPanelUI : MonoBehaviour
             ps.OnLivesChanged += OnLives;
             ps.OnBombsChanged += OnBombs;
             ps.OnSoulsChanged += OnSouls;
+            ps.OnKillsChanged += OnKills;
 
             OnLives(ps.lives);
             OnBombs(ps.bombs);
             OnSouls(ps.souls);
+            OnKills(ps.kills);
         }
         else
         {
@@ -89,6 +92,7 @@ public class RightPanelUI : MonoBehaviour
             ps.OnLivesChanged -= OnLives;
             ps.OnBombsChanged -= OnBombs;
             ps.OnSoulsChanged -= OnSouls;
+            ps.OnKillsChanged -= OnKills;
         }
     }
 
@@ -101,6 +105,7 @@ public class RightPanelUI : MonoBehaviour
     }
 
     void OnSouls(int s) { if (soulsText) soulsText.text = $"{s}"; }
+    void OnKills(int s) { if (killsText) killsText.text = $"{s}"; }
 
     void OnLives(int n)
     {
