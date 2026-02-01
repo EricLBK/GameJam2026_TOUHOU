@@ -37,7 +37,7 @@ public class LevelDirector : MonoBehaviour
 
     private IEnumerator SpawnBullets()
     {
-        _enemyManager.SpawnPattern(Patterns.Spiral(duration: 2f));
+        _enemyManager.SpawnPattern(Patterns.Spiral(), duration: 2f);
         yield return new WaitForSeconds(0.5f);
     }
 

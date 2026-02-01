@@ -123,9 +123,13 @@ namespace Enemy
             }
         }
 
-        public void SpawnPattern(BulletPattern pattern)
+        public void SpawnPattern(BulletPattern pattern, float duration)
         {
-           _bulletManager.SpawnPattern(pattern, new float2(transform.position.x, transform.position.y)); 
+            _bulletManager.SpawnPattern(
+                pattern,
+                new float2(transform.position.x, transform.position.y),
+                duration: duration
+            );
         }
 
         private void Kill(bool explode)

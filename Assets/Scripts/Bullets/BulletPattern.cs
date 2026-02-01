@@ -22,7 +22,6 @@ namespace Bullets
             float rotationSpeed = 90f, // Degrees per second
             float bulletSpeed = 50f,
             bool spinClockwise = true,
-            float duration = 10.0f,
             BulletPath path = null,
             BulletPrefab prefab = null
         )
@@ -30,12 +29,11 @@ namespace Bullets
             IEnumerator execute(BulletManager manager, float2 initPosition)
             {
                 var startTime = Time.time;
-                var endTime = startTime + duration;
 
                 // Angle step for multiple arms (e.g., 3 arms = 120 degrees apart)
                 var angleStep = 360f / numberOfArms;
 
-                while (Time.time < endTime)
+                for (; ; )
                 {
                     // Calculate the base angle based on time
                     // (time * speed) makes it rotate over time
@@ -83,16 +81,13 @@ namespace Bullets
             float bulletSpeed = 300f,
             float spreadDegrees = 8f,
             float firePeriod = 0.5f,
-            float duration = 5.0f,
             BulletPath path = null,
             BulletPrefab prefab = null
         )
         {
             IEnumerator execute(BulletManager manager, float2 initPosition)
             {
-                var endTime = Time.time + duration;
-
-                while (Time.time < endTime)
+                for (; ; )
                 {
                     Vector2 initPositionV2 = new Vector2(initPosition.x, initPosition.y);
                     Vector2 targetPos = target.position;

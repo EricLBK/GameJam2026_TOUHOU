@@ -184,25 +184,17 @@ namespace Bullets
             StartCoroutine(moveBulletWhileActive());
         }
 
-        public void SpawnPattern(BulletPattern pattern, float2 initPosition)
+        public void SpawnPattern(BulletPattern pattern, float2 initPosition, float duration)
         {
-            StartCoroutine(pattern(this, initPosition: initPosition));
-        }
+            var handle = StartCoroutine(pattern(this, initPosition: initPosition));
 
-        private IEnumerator ThrowCirclesAtPlayer(float2 startPos, float speed, float period)
-        {
-            for (; ; )
+            IEnumerator stopPattern()
             {
-                float2 velocity =
-                    math.normalize((float2)(Vector2)playerTransform.position - startPos) * speed;
-
-                SpawnPattern(
-                    Patterns.ThrowCircle(radius: 50, count: 20, velocity: velocity),
-                    initPosition: startPos
-                );
-
-                yield return new WaitForSeconds(period);
+                yield return new WaitForSeconds(duration);
+                StopCoroutine(handle);
             }
+
+            StartCoroutine(stopPattern());
         }
 
         // ----------------------------
