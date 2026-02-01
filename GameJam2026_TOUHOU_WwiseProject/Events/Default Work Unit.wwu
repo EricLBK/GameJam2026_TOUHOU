@@ -1,6 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{0E597649-9712-4885-8F14-7895D2FC1993}" SchemaVersion="123">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{0E597649-9712-4885-8F14-7895D2FC1993}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{0E597649-9712-4885-8F14-7895D2FC1993}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_EnemyBullet" ID="{C1017C2A-347A-4A9E-990F-E0E9A8349A73}">
+					<ChildrenList>
+						<Action Name="" ID="{92FB0CE0-35E6-4139-85D3-5FEC0B410275}" ShortID="648178718">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="EnemyBullet" ID="{FD412C8C-B5ED-4EF6-9F54-0F436E1ABB92}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_EnemyDeath" ID="{DF29195C-C4BE-425B-BDF4-9D00EDA9A0EE}">
+					<ChildrenList>
+						<Action Name="" ID="{6605FD5D-85EB-4C8A-A92E-BDF66248F3A9}" ShortID="981109779">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="EnemyDeath" ID="{4A482D8A-6D2E-4F8C-866E-9F083E35E8D8}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_EnemyHit" ID="{329AFE5E-F353-4E6E-AE0A-4DD9065C55B4}">
+					<ChildrenList>
+						<Action Name="" ID="{6D470345-62E8-4EC9-8C95-98B2C225B463}" ShortID="394613354">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="EnemyHit" ID="{4EDC45DA-B7CF-45CD-8FB4-13F5645C1CC5}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_MenuClickHover" ID="{BB19545C-9085-4B0D-AD98-B59B86A5940E}">
+					<ChildrenList>
+						<Action Name="" ID="{6290B28C-6F60-41BC-8204-492119B89146}" ShortID="264136916">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MenuClickHover" ID="{119B969E-3A96-42A9-A566-2CB4AD73F9DB}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_PlayerDamage" ID="{C588C08A-916D-4E83-AD50-BF9B073A4A35}">
+					<ChildrenList>
+						<Action Name="" ID="{6DA205E8-B978-4458-ADF3-0FE352FC85D8}" ShortID="397012493">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PlayerDamage" ID="{8C94B7EA-B7DD-4598-9A83-558F9E3F4B26}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_PlayerDeath" ID="{53AB7565-FF65-46D9-B5CE-4035D0080926}">
+					<ChildrenList>
+						<Action Name="" ID="{CD8CBD63-6BE4-497B-A1ED-78EAADD65170}" ShortID="253551473">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PlayerDeath" ID="{91C75D78-6095-4FB1-AEA9-089C331631D3}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_PlayerFocusToggle" ID="{08B7C50E-962D-4367-AE28-1BAE1E88C193}">
+					<ChildrenList>
+						<Action Name="" ID="{FB16E898-94E3-44A1-932C-6CC4B655B871}" ShortID="1016028958">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PlayerFocusToggle" ID="{97BF183B-B531-4FA5-A8F2-3A9C0ACABF5F}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_PlayerPickUpItem" ID="{3BF1DDFE-94CC-4149-A5A4-35253A567974}">
+					<ChildrenList>
+						<Action Name="" ID="{0053BA88-5235-41AA-A759-E32EC2EA413A}" ShortID="452624939">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PlayerPickUpItem" ID="{368897C0-1FA8-4311-9CB6-5C188F08E317}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_PlayerShootFocus" ID="{5300E112-3F0F-4D71-AE1E-08ED89E99DAD}">
+					<ChildrenList>
+						<Action Name="" ID="{62F30A12-9635-4CC7-B9B2-0CF2BB664DCE}" ShortID="907328551">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PlayerShootFocus" ID="{F2113710-BB54-4E16-9118-1759ED336D3E}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_PlayerShootNormal" ID="{A2A535C5-5D32-4C0C-A1E6-0BBC1A31BBF0}">
+					<ChildrenList>
+						<Action Name="" ID="{7F504501-9EC2-41D4-9ACF-1B6FD206AC6D}" ShortID="614572100">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PlayerShootNormal" ID="{1D9ADD00-F6E9-41A1-9BEF-45A665A4FC6F}" WorkUnitID="{DCCDA300-50ED-453E-A81B-AFA7EEEFEE2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

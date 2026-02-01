@@ -1,0 +1,24 @@
+Event	ID	Name			Wwise Object Path	Notes
+	7909091	Play_PlayerShootNormal			\Default Work Unit\Play_PlayerShootNormal	
+	863241602	Play_EnemyBullet			\Default Work Unit\Play_EnemyBullet	
+	910581297	Play_PlayerDeath			\Default Work Unit\Play_PlayerDeath	
+	1014941850	Play_PlayerDamage			\Default Work Unit\Play_PlayerDamage	
+	1297444699	Play_PlayerFocusToggle			\Default Work Unit\Play_PlayerFocusToggle	
+	2534390857	Play_EnemyHit			\Default Work Unit\Play_EnemyHit	
+	2769748522	Play_PlayerShootFocus			\Default Work Unit\Play_PlayerShootFocus	
+	3016872785	Play_MenuClickHover			\Default Work Unit\Play_MenuClickHover	
+	3103906424	Play_PlayerPickUpItem			\Default Work Unit\Play_PlayerPickUpItem	
+	3154146856	Play_EnemyDeath			\Default Work Unit\Play_EnemyDeath	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	289297324	EnemyDeath	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\C5\{C544A7DC-1D0E-97FE-FC8E-C0EDB04DCFA5}.wem		\Actor-Mixer Hierarchy\Default Work Unit\EnemyDeath		73448
+	428497870	PlayerDamage	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\33\{3306A571-08A1-9EE3-1C60-72FAD0041C68}.wem		\Actor-Mixer Hierarchy\Default Work Unit\PlayerDamage		28860
+	481973229	EnemyBullet	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\35\{35DDF466-ACBA-FC4B-A152-7951BD0C5BE0}.wem		\Actor-Mixer Hierarchy\Default Work Unit\EnemyBullet		13144
+	499375168	PlayerDeath	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\AE\{AE97EABA-50D0-2BAE-9A66-98015CA677FE}.wem		\Actor-Mixer Hierarchy\Default Work Unit\PlayerDeath		188160
+	508983347	PlayerShootFocus	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\97\{9757D7B4-09CF-FE9A-4F8F-52BC0B63FD5D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\PlayerShootFocus		37984
+	707456962	PlayerFocusToggle	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\BB\{BB7B1DF6-526B-942C-FEA2-D31177F52E82}.wem		\Actor-Mixer Hierarchy\Default Work Unit\PlayerFocusToggle		46460
+	714769662	PlayerPickUpItem	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\D3\{D3EBC768-7DAB-D0F0-6359-C8C06B2B1915}.wem		\Actor-Mixer Hierarchy\Default Work Unit\PlayerPickUpItem		29060
+	719315173	PlayerShootNormal	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\78\{7864B405-370E-C312-C3B9-4A02B6DF912D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\PlayerShootNormal		39060
+	840312647	MenuClickHover	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\57\{5769136A-DA43-115E-A62E-C963E8E58FF4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\MenuClickHover		73448
+	1016380551	EnemyHit	Z:\Volumes\Samsung PSSD T7 Media\GameDev McGill\GameJam2026_TOUHOU\GameJam2026_TOUHOU_WwiseProject\.cache\9B\{9B4AC3F8-BAF3-1DA5-F4C7-0D4EFCE25017}.wem		\Actor-Mixer Hierarchy\Default Work Unit\EnemyHit		17460
+
