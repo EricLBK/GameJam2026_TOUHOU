@@ -15,91 +15,120 @@ public class DialogueController : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] private bool clickToAdvance = true;
-    [SerializeField] private int mouseButton = 0; // 0 = left
 
-    public int Index { get; private set; } = 0;
-    public bool IsFinished { get; private set; } = false;
+    public int Index { get; private set; }
+    public bool IsRunning { get; private set; }
+    public bool IsFinished { get; private set; }
 
     private Coroutine typingCo;
     private string fullLineText = "";
 
-    private void Start()
-    {
-        ShowLine(0);
-    }
-
-    private void Update()
-    {
-        if (!clickToAdvance) return;
-        if (!Input.GetKeyDown(KeyCode.Z)) return;
-
-        HandleAdvanceInput();
-    }
+    // -----------------------
+    // Public API
+    // -----------------------
 
     public void StartDialogue(DialogueAsset asset, int startIndex = 0)
     {
+        if (asset == null || asset.Count == 0) return;
+
         dialogue = asset;
-        ShowLine(startIndex);
+        Index = Mathf.Clamp(startIndex, 0, dialogue.Count - 1);
+
+        IsRunning = true;
+        IsFinished = false;
+
+        ShowLine(Index);
     }
 
     public void Next()
     {
+        if (!IsRunning) return;
         if (dialogue == null || dialogue.Count == 0) return;
-        if (IsFinished) return;
+
+        // If currently on the LAST line → end dialogue
+        if (Index >= dialogue.Count - 1)
+        {
+            EndDialogue();
+            return;
+        }
 
         ShowLine(Index + 1);
     }
 
     public void Prev()
     {
+        if (!IsRunning) return;
         if (dialogue == null || dialogue.Count == 0) return;
+
         ShowLine(Index - 1);
     }
 
+    public void EndDialogue()
+    {
+        IsRunning = false;
+        IsFinished = true;
+
+        if (typingCo != null)
+        {
+            StopCoroutine(typingCo);
+            typingCo = null;
+        }
+
+        textView?.Clear();
+    }
+
+    // -----------------------
+    // Unity loop
+    // -----------------------
+
+    private void Update()
+    {
+        if (!IsRunning) return;
+        if (!clickToAdvance) return;
+
+        if (Input.GetKeyDown(KeyCode.Z))
+            HandleAdvanceInput();
+    }
+
+    // -----------------------
+    // Internal logic
+    // -----------------------
+
     private void HandleAdvanceInput()
     {
-        // If typing is in progress, skip to end of current line.
+        // If typing is in progress → finish instantly
         if (typingCo != null)
         {
             FinishTypingInstant();
             return;
         }
 
-        // Otherwise go to next line
+        // Otherwise advance
         Next();
     }
 
     private void ShowLine(int newIndex)
     {
-        if (dialogue == null || dialogue.Count == 0)
-        {
-            IsFinished = true;
-            textView?.Clear();
-            return;
-        }
-
         Index = Mathf.Clamp(newIndex, 0, dialogue.Count - 1);
-        IsFinished = (Index >= dialogue.Count - 1);
 
         DialogueLine line = dialogue.GetLine(Index);
-        if (line == null)
-        {
-            IsFinished = true;
-            textView?.Clear();
-            return;
-        }
+        if (line == null) return;
 
         // Stop previous typing
-        if (typingCo != null) StopCoroutine(typingCo);
-        typingCo = null;
+        if (typingCo != null)
+        {
+            StopCoroutine(typingCo);
+            typingCo = null;
+        }
 
-        // Apply visuals for this line
+        // Apply visuals
         portraitView?.Apply(line);
 
         // Typewriter
         textView?.SetName(line.name);
         fullLineText = line.text ?? "";
         textView?.SetBody("");
+
         typingCo = StartCoroutine(TypeLine(fullLineText));
     }
 
@@ -114,8 +143,10 @@ public class DialogueController : MonoBehaviour
         for (int i = 0; i < s.Length; i++)
         {
             textView.SetBody(textView.GetBody() + s[i]);
-            if (textSpeed > 0f) yield return new WaitForSeconds(textSpeed);
-            else yield return null; // still yields 1 frame
+            if (textSpeed > 0f)
+                yield return new WaitForSecondsRealtime(textSpeed);
+            else
+                yield return null;
         }
 
         typingCo = null;
@@ -128,6 +159,7 @@ public class DialogueController : MonoBehaviour
             StopCoroutine(typingCo);
             typingCo = null;
         }
+
         textView?.SetBody(fullLineText);
     }
 }

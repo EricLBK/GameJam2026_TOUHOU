@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d59c8c10f642541826382d940e3b24, type: 3}
+  m_Name: Dialogue3Asset 2
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueAsset
+  lines:
+  - speaker: 0
+    name: PersonA
+    text: Hello PersonB i am PersonA and this is my dialogue
+    leftPortraitKey: A
+    rightPortraitKey: B
+  - speaker: 1
+    name: PersonB
+    text: Okay PersonB but i am person A and i don`t care
+    leftPortraitKey: A
+    rightPortraitKey: B
+  - speaker: 0
+    name: PersonA
+    text: Are you enjoying your bubble tea?
+    leftPortraitKey: A
+    rightPortraitKey: B
+  - speaker: 1
+    name: PersonB
+    text: YES
+    leftPortraitKey: A
+    rightPortraitKey: B
+  - speaker: 1
+    name: PersonB
+    text: ...
+    leftPortraitKey: B
+    rightPortraitKey: D
+  - speaker: 1
+    name: PersonB
+    text: What
+    leftPortraitKey: B
+    rightPortraitKey: D

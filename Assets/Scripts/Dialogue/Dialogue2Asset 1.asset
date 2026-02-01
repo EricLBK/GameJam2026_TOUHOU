@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d59c8c10f642541826382d940e3b24, type: 3}
+  m_Name: Dialogue2Asset 1
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueAsset
+  lines:
+  - speaker: 0
+    name: Evil Fairy 2
+    text: 'Human, I want tasty water!
+
+'
+    leftPortraitKey: fairy2_normal
+    rightPortraitKey: reimu_shock_1
+  - speaker: 1
+    name: Reimu
+    text: 'What? This again?
+
+'
+    leftPortraitKey: 
+    rightPortraitKey: reimu_angry
+  - speaker: 0
+    name: 'Evil Fairy 2 '
+    text: 'I have to hunt for humans!
+
+'
+    leftPortraitKey: fairy2_cry
+    rightPortraitKey: reimu_sad
+  - speaker: 1
+    name: Reimu
+    text: 'Sounds like something a yokai would say! And I hate youkais!
+
+'
+    leftPortraitKey: fairy2_cry
+    rightPortraitKey: reimu_angry
