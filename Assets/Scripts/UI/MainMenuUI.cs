@@ -5,11 +5,11 @@ public class MainMenuUI : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadSceneAsync("NormalPlaythrough");
+        SceneManager.LoadSceneAsync("MainScene");
     }
     public void DemoGame()
     {
-        SceneManager.LoadSceneAsync("DemoWalkthrough");
+        SceneManager.LoadSceneAsync("MainScene_hacks");
     }
     public void ExitGame()
     {
