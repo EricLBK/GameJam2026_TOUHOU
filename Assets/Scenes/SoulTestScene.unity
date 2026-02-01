@@ -131,6 +131,8 @@ GameObject:
   - component: {fileID: 74094513}
   - component: {fileID: 74094512}
   - component: {fileID: 74094515}
+  - component: {fileID: 74094516}
+  - component: {fileID: 74094517}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -151,8 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoulManager
   soulPrefab: {fileID: -2098852506341382444, guid: 32bd1338dd6539b40a9ccb3d21ba8398, type: 3}
-  player: {fileID: 1029519207}
-  playerStats: {fileID: 1029519210}
+  extraLifePrefab: {fileID: 3299776005542477031, guid: 22d002dfb3bbe1c46a2edb818501137e, type: 3}
+  bombPrefab: {fileID: 920009372632110713, guid: e35cb1d72051a844c95fa9012009048c, type: 3}
+  burstRadius: 500
 --- !u!114 &74094513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +205,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc995c221449014a802091a473e7e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
+--- !u!114 &74094516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74094511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9901dcf2156ea0a4094719d1f6295151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+--- !u!114 &74094517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74094511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b53cadaf94170a46b8dfbbfbe85ece4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsDebugHUD
 --- !u!1 &245241621
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,6 +240,7 @@ GameObject:
   - component: {fileID: 245241624}
   - component: {fileID: 245241623}
   - component: {fileID: 245241625}
+  - component: {fileID: 245241626}
   m_Layer: 0
   m_Name: GameObject4Testing
   m_TagString: Untagged
@@ -232,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e80c2403db4288648b784f2d75aeadb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTest
-  enemyPrefab: {fileID: 272445439}
+  enemyPrefab: {fileID: 7835678334348867616, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
   count: 1
   value: 50
   radius: 500
@@ -266,27 +294,23 @@ MonoBehaviour:
   count: 1
   value: 50
   radius: 500
---- !u!1 &272445439 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7835678334348867616, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-  m_PrefabInstance: {fileID: 1217205928}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &272445440
+--- !u!114 &245241626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272445439}
+  m_GameObject: {fileID: 245241621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0cede296a8646e40878d794e7d455cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 226778a53dbf1f64dbcf3a5b26c76363, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHP: 10
-  pointsWorth: 100
-  soulsToDrop: 3
-  soulValue: 50
+  m_EditorClassIdentifier: Assembly-CSharp::PickupTestSpawner
+  soulPrefab: {fileID: 7835678334348867616, guid: 32bd1338dd6539b40a9ccb3d21ba8398, type: 3}
+  lifePrefab: {fileID: 7835678334348867616, guid: 22d002dfb3bbe1c46a2edb818501137e, type: 3}
+  bombPrefab: {fileID: 7835678334348867616, guid: e35cb1d72051a844c95fa9012009048c, type: 3}
+  radius: 500
+  burstCount: 10
 --- !u!1001 &281167450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -346,98 +370,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7835678334348867616, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1029519210}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
---- !u!1 &440292495 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7835678334348867616, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
-  m_PrefabInstance: {fileID: 281167450}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1029519207 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5915456611478375415, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
-  m_PrefabInstance: {fileID: 281167450}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1029519210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 440292495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f9455bf0f8368643ae01669ec025e6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  pickupRadius: 40
-  lives: 3
-  bombs: 2
-  score: 0
-  souls: 0
---- !u!1001 &1217205928
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5915456611478375415, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7835678334348867616, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      propertyPath: m_Name
-      value: Mob
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7835678334348867616, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 272445440}
-  m_SourcePrefab: {fileID: 100100000, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
 --- !u!1 &1919966953
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,4 +530,3 @@ SceneRoots:
   - {fileID: 245241624}
   - {fileID: 1919966956}
   - {fileID: 281167450}
-  - {fileID: 1217205928}

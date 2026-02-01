@@ -5,8 +5,8 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - soulPrefab: {fileID: -2098852506341382444, guid: 32bd1338dd6539b40a9ccb3d21ba8398, type: 3}
-  - player: {fileID: 5915456611478375415, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
-  - playerStats: {fileID: -280805687738361174, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
+  - extraLifePrefab: {fileID: 3299776005542477031, guid: 22d002dfb3bbe1c46a2edb818501137e, type: 3}
+  - bombPrefab: {fileID: 920009372632110713, guid: e35cb1d72051a844c95fa9012009048c, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
