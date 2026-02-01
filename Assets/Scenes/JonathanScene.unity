@@ -371,10 +371,24 @@ MonoBehaviour:
     width: 2000
     height: 2000
   maxBullets: 2000
-  bulletPrefab: {fileID: 8864135856268846815, guid: 8057f4e598d58584ab6c4a77e4b60318, type: 3}
   playerTransform: {fileID: 5891222866680057044}
   playerHitBoxRadius: 10.1
-  bulletRadius: 10
+  bulletPrefabs:
+    blue:
+      prefab: {fileID: 6146749560070203269, guid: de27117a6def60f4ba27c63802050b6d, type: 3}
+      radius: 10
+    red:
+      prefab: {fileID: 8864135856268846815, guid: 606ecc4f5c8492447a47644ebca29780, type: 3}
+      radius: 10
+    purple:
+      prefab: {fileID: 8864135856268846815, guid: c78a1eee5a573114ab86b4051341d6f5, type: 3}
+      radius: 10
+    purple2:
+      prefab: {fileID: 8864135856268846815, guid: c9b44d18a453aa14f8e751af8c45b46a, type: 3}
+      radius: 10
+    pink:
+      prefab: {fileID: 8864135856268846815, guid: 8057f4e598d58584ab6c4a77e4b60318, type: 3}
+      radius: 10
 --- !u!4 &1573050659
 Transform:
   m_ObjectHideFlags: 0
