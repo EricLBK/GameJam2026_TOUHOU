@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Bullets;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Enemy
 {
@@ -12,8 +13,7 @@ namespace Enemy
         public static readonly List<EnemyController> ActiveEnemies = new List<EnemyController>();
 
         [Header("Stats")]
-        [SerializeField] private float maxHP = 10f;
-        [SerializeField] private float speed = 0.5f; // 0.5 means 2 seconds to finish path
+        private GameObject _dropPrefab;
 
         [Header("Rewards")]
         [Tooltip("Base points awarded when this enemy is killed by the player.")]
@@ -26,8 +26,10 @@ namespace Enemy
         private PlayerStats stats;
 
         private float _hitRadius;
-        private float _currentHP;
+        private float _currentHp;
         private float _pathProgress; // 't' value (0.0 to 1.0)
+        private int _drops;
+        private float _speed;
         private EnemyPath _currentPath;
         private Rect _cullingRect;
         private BulletManager _bulletManager;
@@ -49,17 +51,22 @@ namespace Enemy
         public void Initialize(
             EnemyPath path,
             BulletManager bulletManager,
-            Rect cullRect,
+            int scoreDrops,
             float hitRadius,
-            Action<EnemyController> returnToPool
+            Action<EnemyController> returnToPool,
+            float speed = 0.5f,
+            int hp = 10
         )
         {
+            _dropPrefab = Resources.Load<GameObject>("Prefab/Pickup-able/Soul");
             _currentPath = path;
-            _cullingRect = cullRect;
+            _drops = scoreDrops;
+            _cullingRect = FieldOfPlayBounds.Instance.Bounds;
             _onDeathCallback = returnToPool;
             _bulletManager = bulletManager;
 
-            _currentHP = maxHP;
+            _currentHp = hp;
+            _speed = speed;
             _pathProgress = 0f;
             _hitRadius = hitRadius;
 
@@ -84,7 +91,7 @@ namespace Enemy
             if (_currentPath == null) return;
 
             // Advance 't' based on speed and time
-            _pathProgress += speed * Time.deltaTime;
+            _pathProgress += _speed * Time.deltaTime;
 
             // Calculate new position
             transform.position = _currentPath.Evaluate(_pathProgress);
@@ -98,21 +105,27 @@ namespace Enemy
                 Kill(false); // Despawn without rewards
                 return;
             }
-
-            if (!(_pathProgress % 0.25f <= 0.02f)) return;
-
-            // bounds checks omitted (as in your code)
+            // 2. Check if the enemy is within bound
+            // if (!_cullingRect.Contains(transform.position))
+            // {
+            //     Kill(false);
+            // }
         }
 
         // Call this when a bullet hits the enemy
         public void TakeDamage(float damage)
         {
-            _currentHP -= damage;
+            _currentHp -= damage;
 
-            if (_currentHP <= 0)
+            if (_currentHp <= 0)
             {
                 Kill(true); // Die with explosion / rewards
             }
+        }
+
+        public void SpawnPattern(BulletPattern pattern)
+        {
+           _bulletManager.SpawnPattern(pattern, new float2(transform.position.x, transform.position.y)); 
         }
 
         private void Kill(bool explode)

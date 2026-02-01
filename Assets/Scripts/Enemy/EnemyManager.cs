@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bullets;
+using JetBrains.Annotations;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Enemy
 {
@@ -10,48 +12,51 @@ namespace Enemy
     {
 
         [SerializeField] private GameObject enemyPrefab;
-        [SerializeField] private Rect bounds;
-        [SerializeField] private float radius;
-        private EnemyPath _testPath;
+        [SerializeField] private Sprite testSprite;
         private Queue<EnemyController> _pool;
         private Vector3 _scale;
         private BulletManager _bulletManager;
+        private EnemyController _curController;
 
         private void Start()
         {
             _pool = new Queue<EnemyController>();
-            _testPath = ScriptableObject.CreateInstance<EnemyPath>();
-            _testPath.points = new[]
-            {
-                new Vector2(400, 400),
-                new Vector2(100, 100),
-                new Vector2(100, 100),
-                new Vector2(600, 100)
-            };
-            var sr = enemyPrefab.GetComponent<SpriteRenderer>();
-            if (sr == null) return;
-            var spriteSize = sr.sprite.bounds.size;
-            _scale = new Vector3(
-                (radius * 2) / spriteSize.x,
-                (radius * 2) / spriteSize.y,
-                1f);
             _bulletManager = gameObject.GetComponent<BulletManager>();
         }
 
-        private void Update()
+        public void SpawnEnemy(EnemyPath path, int scoreDrops, float radius,[CanBeNull] GameObject gamePrefab, float speed = 1.0f)
         {
-            if (!Input.GetKeyDown(KeyCode.Space)) return;
-            var controller = GetFromPool();
-            controller.Initialize(path: _testPath, bulletManager:_bulletManager, cullRect: bounds, hitRadius: radius, returnToPool: ReturnToPool);
+            if (gamePrefab != null)
+            {
+                var sr = gamePrefab.GetComponent<SpriteRenderer>();
+                if (sr == null) return;
+                var spriteSize = sr.sprite.bounds.size;
+                _scale = new Vector3(
+                    (radius * 2) / spriteSize.x,
+                    (radius * 2) / spriteSize.y,
+                    1f);
+            }
+            
+            var controller = GetFromPool(gamePrefab);
+            controller.Initialize(path: path, bulletManager:_bulletManager, scoreDrops: scoreDrops, hitRadius: radius, speed: speed, returnToPool: ReturnToPool);
+            _curController = controller;
         }
 
-        private EnemyController GetFromPool()
+        // Always make sure spawn enemy is called before this!
+        public void SpawnPattern(BulletPattern pattern)
+        {
+            if(_curController != null)
+                _curController.SpawnPattern(pattern);
+        }
+
+        private EnemyController GetFromPool([CanBeNull] GameObject prefab)
         {
             if (_pool.Count > 0)
             {
                 return _pool.Dequeue();
             }
-            var go = Instantiate(enemyPrefab, transform);
+
+            var go = (prefab == null) ?  Instantiate(enemyPrefab, transform) : Instantiate(prefab, transform);
             go.transform.localScale = _scale;
             return go.GetComponent<EnemyController>();
         }

@@ -13,12 +13,12 @@ namespace Bullets
         }
     }
 
-    public delegate IEnumerator BulletPattern(BulletManager manager);
+    public delegate IEnumerator BulletPattern(BulletManager manager, float2 initPosition);
 
     public class Patterns
     {
         public static BulletPattern Spiral(
-            float2 position,
+            // float2 position,
             int numberOfArms = 4, // How many "spokes" the spiral has
             float rotationSpeed = 90f, // Degrees per second
             float bulletSpeed = 50f,
@@ -27,7 +27,7 @@ namespace Bullets
             BulletPath path = null
         )
         {
-            IEnumerator execute(BulletManager manager)
+            IEnumerator execute(BulletManager manager, float2 initPosition)
             {
                 var startTime = Time.time;
                 var endTime = startTime + duration;
@@ -48,7 +48,7 @@ namespace Bullets
                         // Convert Angle to Velocity Vector
                         var velocity = Util.DegreeToVector2(finalAngle) * bulletSpeed;
 
-                        manager.SpawnBullet(position, velocity, radius: 50, path: path);
+                        manager.SpawnBullet(initPosition, velocity, radius: 50, path: path);
                     }
                     yield return new WaitForSeconds(0.2f);
                 }
@@ -59,18 +59,18 @@ namespace Bullets
         public static BulletPattern ThrowCircle(
             float radius,
             int count,
-            float2 center,
+            // float2 center,
             float2 velocity,
             float startAngle = 0f
         )
         {
-            IEnumerator execute(BulletManager manager)
+            IEnumerator execute(BulletManager manager, float2 initPosition)
             {
                 for (int i = 0; i < count; ++i)
                 {
                     float angle = startAngle + i * (math.PI2 / count);
                     float2 position =
-                        center + new float2(math.cos(angle), math.sin(angle)) * radius;
+                        initPosition + new float2(math.cos(angle), math.sin(angle)) * radius;
                     manager.SpawnBullet(position: position, velocity: velocity);
                 }
                 yield break;
@@ -78,7 +78,7 @@ namespace Bullets
             return execute;
         }
         public static BulletPattern Shotgun(
-    float2 origin,
+    // float2 origin,
     Transform target,
     float bulletSpeed = 300f,
     float spreadDegrees = 8f,
@@ -88,13 +88,13 @@ namespace Bullets
     float radius = 50f
 )
 {
-    IEnumerator execute(BulletManager manager)
+    IEnumerator execute(BulletManager manager, float2 initPosition)
     {
         var endTime = Time.time + duration;
 
         while (Time.time < endTime)
         {
-            Vector2 originV2 = new Vector2(origin.x, origin.y);
+            Vector2 originV2 = new Vector2(initPosition.x, initPosition.y);
             Vector2 targetPos = target.position;
 
             Vector2 aimDir = (targetPos - originV2).normalized;
@@ -108,7 +108,7 @@ namespace Bullets
 
                 // SpawnBullet expects float2 velocity in your BulletManager signature
                 manager.SpawnBullet(
-                    position: origin,
+                    position: initPosition,
                     velocity: (float2)vel,
                     radius: radius,
                     path: path

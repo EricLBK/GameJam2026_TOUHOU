@@ -191,9 +191,9 @@ namespace Bullets
             StartCoroutine(moveBulletWhileActive());
         }
 
-        public void SpawnPattern(BulletPattern pattern)
+        public void SpawnPattern(BulletPattern pattern, float2 initPosition)
         {
-            StartCoroutine(pattern(this));
+            StartCoroutine(pattern(this, initPosition:initPosition));
         }
 
         private IEnumerator ThrowCirclesAtPlayer(float2 startPos, float speed, float period)
@@ -207,9 +207,8 @@ namespace Bullets
                     Patterns.ThrowCircle(
                         radius: 50,
                         count: 20,
-                        center: startPos,
                         velocity: velocity
-                    )
+                    ), initPosition: startPos
                 );
 
                 yield return new WaitForSeconds(period);
