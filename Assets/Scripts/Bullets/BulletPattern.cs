@@ -27,23 +27,35 @@ namespace Bullets
         public float2 velocity;
     }
 
+    public delegate List<BulletSpawn> BulletShot(float2 initPos);
+
     public class Shots
     {
-        public static List<BulletSpawn> Spread(
-            float2 initPos,
+        public static BulletShot Spread(
             float2 targetPos,
             float bulletSpeed = 300f,
             float spreadDegrees = 8f,
             int spreadCount = 2
         )
         {
-            float2 aimDir = math.normalize(targetPos - initPos);
-            float baseDeg = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+            return (initPos) =>
+            {
+                float2 aimDir = math.normalize(targetPos - initPos);
+                float baseDeg = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
 
-            List<BulletSpawn> spawns = new();
+                List<BulletSpawn> spawns = new();
 
-            // mirrored around center
-            for (int k = -spreadCount; k <= spreadCount; k++)
+                // mirrored around center
+                for (int k = -spreadCount; k <= spreadCount; k++)
+                {
+                    float deg = baseDeg + (k * spreadDegrees);
+                    float2 vel = Util.DegreeToVector2(deg) * bulletSpeed;
+                    spawns.Add(new BulletSpawn { position = initPos, velocity = vel });
+                }
+
+                return spawns;
+            };
+        }
             {
                 float deg = baseDeg + (k * spreadDegrees);
                 float2 vel = Util.DegreeToVector2(deg) * bulletSpeed;
@@ -115,28 +127,15 @@ namespace Bullets
             return execute;
         }
 
-        public static BulletPattern Spread(
-            Transform target,
-            float bulletSpeed = 300f,
-            float spreadDegrees = 8f,
-            int spreadCount = 2,
+        public static BulletPattern SingleShot(
+            BulletShot shot,
             BulletPath path = null,
             BulletPrefab prefab = null
         )
         {
             IEnumerator execute(BulletManager manager, float2 initPosition)
             {
-                manager.SpawnShot(
-                    Shots.Spread(
-                        initPosition,
-                        (float2)(Vector2)target.position,
-                        bulletSpeed: bulletSpeed,
-                        spreadDegrees: spreadDegrees,
-                        spreadCount: spreadCount
-                    ),
-                    path: path,
-                    prefab: prefab
-                );
+                manager.SpawnShot(initPosition, shot, path: path, prefab: prefab);
                 yield break;
             }
 
@@ -157,8 +156,8 @@ namespace Bullets
                 for (; ; )
                 {
                     manager.SpawnShot(
+                        initPosition,
                         Shots.Spread(
-                            initPosition,
                             (float2)(Vector2)target.position,
                             bulletSpeed: bulletSpeed,
                             spreadDegrees: spreadDegrees,

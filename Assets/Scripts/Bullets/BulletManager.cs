@@ -129,13 +129,14 @@ namespace Bullets
         }
 
         public void SpawnShot(
-            List<BulletSpawn> spawns,
+            float2 initPosition,
+            BulletShot shot,
             BulletPrefab prefab = null,
             BulletPath path = null,
             bool isPlayerBullet = false
         )
         {
-            foreach (var spawn in spawns)
+            foreach (var spawn in shot(initPosition))
             {
                 SpawnBullet(
                     spawn.position,
