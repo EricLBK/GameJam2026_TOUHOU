@@ -128,7 +128,25 @@ namespace Bullets
             return -1;
         }
 
-        // CHANGED: added isPlayerBullet flag (defaults false)
+        public void SpawnShot(
+            List<BulletSpawn> spawns,
+            BulletPrefab prefab = null,
+            BulletPath path = null,
+            bool isPlayerBullet = false
+        )
+        {
+            foreach (var spawn in spawns)
+            {
+                SpawnBullet(
+                    spawn.position,
+                    spawn.velocity,
+                    prefab: prefab,
+                    path: path,
+                    isPlayerBullet: isPlayerBullet
+                );
+            }
+        }
+
         public void SpawnBullet(
             float2 position,
             float2 velocity,
@@ -195,6 +213,14 @@ namespace Bullets
             }
 
             StartCoroutine(stopPattern());
+        }
+
+        public void SpawnPattern(BulletPattern[] patterns, float2 initPosition, float duration)
+        {
+            foreach (var pattern in patterns)
+            {
+                SpawnPattern(pattern, initPosition, duration);
+            }
         }
 
         // ----------------------------

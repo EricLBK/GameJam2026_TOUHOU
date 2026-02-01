@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -19,6 +20,39 @@ namespace Bullets
     }
 
     public delegate IEnumerator BulletPattern(BulletManager manager, float2 initPosition);
+
+    public struct BulletSpawn
+    {
+        public float2 position;
+        public float2 velocity;
+    }
+
+    public class Shots
+    {
+        public static List<BulletSpawn> Spread(
+            float2 initPos,
+            float2 targetPos,
+            float bulletSpeed = 300f,
+            float spreadDegrees = 8f,
+            int spreadCount = 2
+        )
+        {
+            float2 aimDir = math.normalize(targetPos - initPos);
+            float baseDeg = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+
+            List<BulletSpawn> spawns = new();
+
+            // mirrored around center
+            for (int k = -spreadCount; k <= spreadCount; k++)
+            {
+                float deg = baseDeg + (k * spreadDegrees);
+                float2 vel = Util.DegreeToVector2(deg) * bulletSpeed;
+                spawns.Add(new BulletSpawn { position = initPos, velocity = vel });
+            }
+
+            return spawns;
+        }
+    }
 
     public class Patterns
     {
@@ -81,6 +115,34 @@ namespace Bullets
             return execute;
         }
 
+        public static BulletPattern Spread(
+            Transform target,
+            float bulletSpeed = 300f,
+            float spreadDegrees = 8f,
+            int spreadCount = 2,
+            BulletPath path = null,
+            BulletPrefab prefab = null
+        )
+        {
+            IEnumerator execute(BulletManager manager, float2 initPosition)
+            {
+                manager.SpawnShot(
+                    Shots.Spread(
+                        initPosition,
+                        (float2)(Vector2)target.position,
+                        bulletSpeed: bulletSpeed,
+                        spreadDegrees: spreadDegrees,
+                        spreadCount: spreadCount
+                    ),
+                    path: path,
+                    prefab: prefab
+                );
+                yield break;
+            }
+
+            return execute;
+        }
+
         public static BulletPattern Shotgun(
             Transform target,
             float bulletSpeed = 300f,
@@ -94,27 +156,17 @@ namespace Bullets
             {
                 for (; ; )
                 {
-                    Vector2 initPositionV2 = new Vector2(initPosition.x, initPosition.y);
-                    Vector2 targetPos = target.position;
-
-                    Vector2 aimDir = (targetPos - initPositionV2).normalized;
-                    float baseDeg = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
-
-                    // 5 bullets: -2, -1, 0, +1, +2 (mirrored around center)
-                    for (int k = -2; k <= 2; k++)
-                    {
-                        float deg = baseDeg + (k * spreadDegrees);
-                        Vector2 vel = Util.DegreeToVector2(deg) * bulletSpeed;
-
-                        // SpawnBullet expects float2 velocity in your BulletManager signature
-                        manager.SpawnBullet(
-                            position: initPosition,
-                            velocity: (float2)vel,
-                            path: path,
-                            prefab: prefab
-                        );
-                    }
-
+                    manager.SpawnShot(
+                        Shots.Spread(
+                            initPosition,
+                            (float2)(Vector2)target.position,
+                            bulletSpeed: bulletSpeed,
+                            spreadDegrees: spreadDegrees,
+                            spreadCount: 2
+                        ),
+                        path: path,
+                        prefab: prefab
+                    );
                     yield return new WaitForSeconds(firePeriod);
                 }
             }
