@@ -18,21 +18,21 @@ MonoBehaviour:
     text: 'Human, I want tasty water!
 
 '
-    leftPortraitKey: fairy2_normal
+    leftPortraitKey: fairy_2_normal
     rightPortraitKey: reimu_shock_1
   - speaker: 1
     name: Reimu
     text: 'What? This again?
 
 '
-    leftPortraitKey: fairy2_normal
+    leftPortraitKey: fairy_2_normal
     rightPortraitKey: reimu_angry
   - speaker: 0
     name: 'Evil Fairy 2 '
     text: 'I have to hunt for humans!
 
 '
-    leftPortraitKey: fairy2_cry
+    leftPortraitKey: fairy_2_cry
     rightPortraitKey: reimu_sad
   - speaker: 1
     name: Reimu
