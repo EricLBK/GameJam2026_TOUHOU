@@ -372,7 +372,7 @@ MonoBehaviour:
     width: 0
     height: 0
   maxBullets: 2000
-  bulletPrefab: {fileID: 6146749560070203269, guid: de27117a6def60f4ba27c63802050b6d, type: 3}
+  bulletPrefab: {fileID: 8864135856268846815, guid: 8057f4e598d58584ab6c4a77e4b60318, type: 3}
   playerTransform: {fileID: 5891222866680057044}
   playerHitBoxRadius: 13
   bulletRadius: 0
