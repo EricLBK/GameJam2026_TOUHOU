@@ -109,6 +109,33 @@ namespace Bullets
             return execute;
         }
 
+        public static BulletPattern Spread(
+            Transform target,
+            float bulletSpeed = 300f,
+            float spreadDegrees = 8f,
+            int spreadCount = 2,
+            BulletPath path = null,
+            BulletPrefab prefab = null
+        )
+        {
+            IEnumerator execute(BulletManager manager, float2 initPosition)
+            {
+                Shots.Spread(
+                    manager,
+                    initPosition,
+                    (float2)(Vector2)target.position,
+                    bulletSpeed: bulletSpeed,
+                    spreadDegrees: spreadDegrees,
+                    spreadCount: spreadCount,
+                    path: path,
+                    prefab: prefab
+                );
+                yield break;
+            }
+
+            return execute;
+        }
+
         public static BulletPattern Shotgun(
             Transform target,
             float bulletSpeed = 300f,
