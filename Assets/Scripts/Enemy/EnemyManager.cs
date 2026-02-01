@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bullets;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Enemy
@@ -13,6 +15,7 @@ namespace Enemy
         private EnemyPath _testPath;
         private Queue<EnemyController> _pool;
         private Vector3 _scale;
+        private BulletManager _bulletManager;
 
         private void Start()
         {
@@ -32,16 +35,14 @@ namespace Enemy
                 (radius * 2) / spriteSize.x,
                 (radius * 2) / spriteSize.y,
                 1f);
-
+            _bulletManager = gameObject.GetComponent<BulletManager>();
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                var controller = GetFromPool();
-                controller.Initialize(_testPath, bounds, radius, ReturnToPool);
-            }
+            if (!Input.GetKeyDown(KeyCode.Space)) return;
+            var controller = GetFromPool();
+            controller.Initialize(path: _testPath, bulletManager:_bulletManager, cullRect: bounds, hitRadius: radius, returnToPool: ReturnToPool);
         }
 
         private EnemyController GetFromPool()

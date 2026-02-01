@@ -1,4 +1,5 @@
 using System;
+using Bullets;
 using UnityEngine;
 
 
@@ -15,14 +16,16 @@ namespace Enemy
         private float _pathProgress; // 't' value (0.0 to 1.0)
         private EnemyPath _currentPath;
         private Rect _cullingRect;
+        private BulletManager _bulletManager;
         private Action<EnemyController> _onDeathCallback; // To return to pool
 
         // Initialize is called by the Manager when spawning
-        public void Initialize(EnemyPath path, Rect cullRect, float hitRadius, Action<EnemyController> returnToPool)
+        public void Initialize(EnemyPath path, BulletManager bulletManager, Rect cullRect, float hitRadius, Action<EnemyController> returnToPool)
         {
             _currentPath = path;
             _cullingRect = cullRect;
             _onDeathCallback = returnToPool;
+            _bulletManager = bulletManager;
 
             _currentHP = maxHP;
             _pathProgress = 0f;
@@ -61,6 +64,11 @@ namespace Enemy
                 Kill(false); // Despawn without explosion
                 return;
             }
+
+            if (!(_pathProgress % 0.25f <= 0.02f)) return;
+            Debug.Log("Spawning bullets");
+            _bulletManager.SpawnPattern(
+                Patterns.Spiral(position: new Vector2(transform.position.x, transform.position.y), bulletSpeed: 100.0f, duration:2.0f));
 
             // 2. Check if somehow drifted out of bounds (redundant for paths, but good safety)
             // if (!_cullingRect.Contains(transform.position))

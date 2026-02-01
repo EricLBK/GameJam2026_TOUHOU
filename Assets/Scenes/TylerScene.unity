@@ -345,6 +345,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1809045491}
   - component: {fileID: 1809045490}
+  - component: {fileID: 1809045492}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -369,8 +370,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: -1000
     y: -1000
-    width: 1000
-    height: 1000
+    width: 2000
+    height: 2000
+  radius: 30
 --- !u!4 &1809045491
 Transform:
   m_ObjectHideFlags: 0
@@ -386,6 +388,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1809045492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809045489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 065d56309a7f43c89595d264124daf19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bullets.BulletManager
+  bounds:
+    serializedVersion: 2
+    x: -1000
+    y: -1000
+    width: 2000
+    height: 2000
+  maxBullets: 2000
+  bulletPrefab: {fileID: 6146749560070203269, guid: de27117a6def60f4ba27c63802050b6d, type: 3}
+  playerTransform: {fileID: 5891222866680057044}
+  playerHitBoxRadius: 10
+  bulletRadius: 20
 --- !u!1001 &5891222866680057043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -451,6 +476,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
+--- !u!4 &5891222866680057044 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5915456611478375415, guid: b0f659cc79b2408478de0ec4e367ed73, type: 3}
+  m_PrefabInstance: {fileID: 5891222866680057043}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

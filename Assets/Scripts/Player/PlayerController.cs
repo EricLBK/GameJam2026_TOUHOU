@@ -29,8 +29,6 @@ namespace Player
             CalculateBoundaries();
             _xScaleOfPlayer = this.transform.localScale.x;
             _yScaleOfPlayer = this.transform.localScale.y;
-
-            
         }
 
         //method to calculate the FOP depending on screensize while maintaining aspect ratio

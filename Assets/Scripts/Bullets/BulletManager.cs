@@ -60,14 +60,14 @@ namespace Bullets
             // 2. Create the TransformAccessArray
             _transformAccessArray = new TransformAccessArray(transforms);
 
-            SpawnPattern(
-                Patterns.Spiral(
-                    position: new float2(0, 200),
-                    bulletSpeed: 200f,
-                    duration: 1.0f,
-                    path: Paths.Homing(playerTransform, 50f)
-                )
-            );
+            // SpawnPattern(
+            //     Patterns.Spiral(
+            //         position: new float2(0, 200),
+            //         bulletSpeed: 200f,
+            //         duration: 1.0f,
+            //         path: Paths.Homing(playerTransform, 50f)
+            //     )
+            // );
             // StartCoroutine(ThrowCirclesAtPlayer(startPos: new float2(0, 300), speed: 300f, period: 0.5f));
         }
 
@@ -134,59 +134,58 @@ namespace Bullets
         }
 
         public void SpawnBullet(
-    float2 position,
-    float2 velocity,
-    BulletPath path = null,
-    float radius = 50.0f
-)
-{
-    _collisionHandle.Complete();
-    _moveHandle.Complete();
-
-    int i = FindNextSlot();
-    if (i == -1)
-    {
-        return;
-    }
-
-    _bulletData.IsActive[i] = true;
-    _bulletData.Position[i] = position;
-    _bulletData.Velocity[i] = velocity;
-    _bulletData.Radius[i] = radius;
-
-    if (path == null)
-    {
-        return;
-    }
-
-    void setVelocity(Vector2 v)
-    {
-        _bulletData.Velocity[i] = (float2)v;
-    }
-
-    Vector2 getPosition()
-    {
-        float2 p = _bulletData.Position[i];
-        return new Vector2(p.x, p.y);
-    }
-
-    IEnumerator moveBulletWhileActive()
-    {
-        foreach (var step in path((Vector2)velocity, setVelocity, getPosition))
+            float2 position, 
+            float2 velocity, 
+            BulletPath path = null, 
+            float radius = 50.0f) 
         {
-            if (!_bulletData.IsActive[i])
+            _collisionHandle.Complete();
+            _moveHandle.Complete();
+
+            int i = FindNextSlot();
+            if (i == -1)
             {
-                yield break;
+                return;
             }
-            yield return step;
+
+            _bulletData.IsActive[i] = true;
+            _bulletData.Position[i] = position;
+            _bulletData.Velocity[i] = velocity;
+            _bulletData.Radius[i] = radius;
+
+            if (path == null)
+            {
+                return;
+            }
+
+            void setVelocity(Vector2 v)
+            {
+                _bulletData.Velocity[i] = (float2)v;
+            }
+
+            Vector2 getPosition()
+            {
+                float2 p = _bulletData.Position[i];
+                return new Vector2(p.x, p.y);
+            }
+
+            IEnumerator moveBulletWhileActive()
+            {
+                foreach (var step in path((Vector2)velocity, setVelocity, getPosition))
+                {
+                    if (!_bulletData.IsActive[i])
+                    {
+                        yield break;
+                    }
+                    yield return step;
+                }
+            }
+
+            StartCoroutine(moveBulletWhileActive()); 
         }
-    }
-
-    StartCoroutine(moveBulletWhileActive());
-}
 
 
-        void SpawnPattern(BulletPattern pattern)
+        public void SpawnPattern(BulletPattern pattern)
         {
             StartCoroutine(pattern(this));
         }

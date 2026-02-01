@@ -31,7 +31,7 @@ public class DialogueController : MonoBehaviour
     private void Update()
     {
         if (!clickToAdvance) return;
-        if (!Input.GetMouseButtonDown(mouseButton)) return;
+        if (!Input.GetKeyDown(KeyCode.Z)) return;
 
         HandleAdvanceInput();
     }
