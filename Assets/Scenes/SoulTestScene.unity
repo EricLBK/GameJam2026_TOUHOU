@@ -813,13 +813,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DigitStripUI
   slots:
-  - {fileID: 2126153634}
-  - {fileID: 2067719466}
-  - {fileID: 1953927039}
-  - {fileID: 874139938}
-  - {fileID: 245457941}
-  - {fileID: 1826382714}
   - {fileID: 755868716}
+  - {fileID: 1826382714}
+  - {fileID: 245457941}
+  - {fileID: 874139938}
+  - {fileID: 1953927039}
+  - {fileID: 2067719466}
+  - {fileID: 2126153634}
   digitSprites:
   - {fileID: 5088316998373936774, guid: 1c5275371f006cd4bb295ce0e721228c, type: 3}
   - {fileID: -855298285791758126, guid: dc52a5ca2b81261449c7b1b708e4f431, type: 3}
@@ -833,7 +833,7 @@ MonoBehaviour:
   - {fileID: 4113829005332862926, guid: bd071ad1a3de4bb47a809e5792210766, type: 3}
   xSprite: {fileID: 5251744956290624300, guid: b7758829f0ca315429f2f16e739db571, type: 3}
   rightAlign: 1
-  padWithZeros: 0
+  padWithZeros: 1
 --- !u!1 &356859902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,9 +1383,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DigitStripUI
   slots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1827338327}
+  - {fileID: 607150890}
+  - {fileID: 1037686589}
   digitSprites:
   - {fileID: 5088316998373936774, guid: 1c5275371f006cd4bb295ce0e721228c, type: 3}
   - {fileID: -855298285791758126, guid: dc52a5ca2b81261449c7b1b708e4f431, type: 3}
@@ -1399,7 +1399,7 @@ MonoBehaviour:
   - {fileID: 4113829005332862926, guid: bd071ad1a3de4bb47a809e5792210766, type: 3}
   xSprite: {fileID: 5251744956290624300, guid: b7758829f0ca315429f2f16e739db571, type: 3}
   rightAlign: 1
-  padWithZeros: 0
+  padWithZeros: 1
 --- !u!1 &463695638
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,8 +1461,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DigitStripUI
   slots:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1422069249}
+  - {fileID: 356859904}
+  - {fileID: 1011257213}
   digitSprites:
   - {fileID: 5088316998373936774, guid: 1c5275371f006cd4bb295ce0e721228c, type: 3}
   - {fileID: -855298285791758126, guid: dc52a5ca2b81261449c7b1b708e4f431, type: 3}
@@ -3380,9 +3381,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DigitStripUI
   slots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 548852205}
+  - {fileID: 129556472}
+  - {fileID: 1949020215}
   digitSprites:
   - {fileID: 5088316998373936774, guid: 1c5275371f006cd4bb295ce0e721228c, type: 3}
   - {fileID: -855298285791758126, guid: dc52a5ca2b81261449c7b1b708e4f431, type: 3}
@@ -3396,7 +3397,7 @@ MonoBehaviour:
   - {fileID: 4113829005332862926, guid: bd071ad1a3de4bb47a809e5792210766, type: 3}
   xSprite: {fileID: 5251744956290624300, guid: b7758829f0ca315429f2f16e739db571, type: 3}
   rightAlign: 1
-  padWithZeros: 0
+  padWithZeros: 1
 --- !u!1 &1121296332
 GameObject:
   m_ObjectHideFlags: 0
@@ -4413,11 +4414,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RightPanelUI
   stageText: {fileID: 1508118008}
   difficultyText: {fileID: 1233007467}
-  scoreDigits: {fileID: 0}
-  comboDigits: {fileID: 0}
-  multiplierDigits: {fileID: 0}
-  soulsDigits: {fileID: 0}
-  killsDigits: {fileID: 0}
+  scoreDigits: {fileID: 263833263}
+  comboDigits: {fileID: 1672160597}
+  multiplierDigits: {fileID: 463695641}
+  soulsDigits: {fileID: 1114420691}
+  killsDigits: {fileID: 455457421}
   soulsText: {fileID: 1111829093}
   killsText: {fileID: 1661656101}
   livesCountText: {fileID: 1929218928}
@@ -4436,6 +4437,7 @@ MonoBehaviour:
   - {fileID: 127276628}
   stageLabel: Stage 1
   difficultyLabel: NORMAL
+  digitsRoot: {fileID: 0}
 --- !u!114 &1619692054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4672,9 +4674,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DigitStripUI
   slots:
-  - {fileID: 1676688871}
-  - {fileID: 1799707299}
   - {fileID: 1472406890}
+  - {fileID: 1799707299}
+  - {fileID: 1676688871}
   digitSprites:
   - {fileID: 5088316998373936774, guid: 1c5275371f006cd4bb295ce0e721228c, type: 3}
   - {fileID: -855298285791758126, guid: dc52a5ca2b81261449c7b1b708e4f431, type: 3}
@@ -4688,7 +4690,7 @@ MonoBehaviour:
   - {fileID: 5088316998373936774, guid: 1c5275371f006cd4bb295ce0e721228c, type: 3}
   xSprite: {fileID: 5251744956290624300, guid: b7758829f0ca315429f2f16e739db571, type: 3}
   rightAlign: 1
-  padWithZeros: 0
+  padWithZeros: 1
 --- !u!1 &1676688869
 GameObject:
   m_ObjectHideFlags: 0
