@@ -65,7 +65,7 @@ namespace Bullets
                     position: new float2(0, 200),
                     bulletSpeed: 200f,
                     duration: 1.0f,
-                    path: Paths.Sine(amplitude: 0.5f, frequency: 2)
+                    path: Paths.Homing(playerTransform, 50f)
                 )
             );
             // StartCoroutine(ThrowCirclesAtPlayer(startPos: new float2(0, 300), speed: 300f, period: 0.5f));
@@ -94,11 +94,11 @@ namespace Bullets
                 HitDetected = _playerHitFlag,
             };
             _collisionHandle = collisionJob.Schedule(maxBullets, 64, _moveHandle);
+            _collisionHandle.Complete();
         }
 
         void LateUpdate()
         {
-            _collisionHandle.Complete();
             if (_playerHitFlag.Value == 1) { }
         }
 
