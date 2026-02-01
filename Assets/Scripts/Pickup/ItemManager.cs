@@ -6,11 +6,12 @@ public class ItemManager : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private SoulPickup soulPrefab;
-    // [SerializeField] private ExtraLifePickup extraLifePrefab;
-    // [SerializeField] private BombPickup bombPrefab;
+    [SerializeField] private ExtraLifePickup extraLifePrefab;
+    [SerializeField] private BombPickup bombPrefab;
+    
 
     [Header("Spawn Tuning")]
-    [SerializeField] private float burstRadius = 0.25f;
+    [SerializeField] private float burstRadius = 10f;
 
     void Awake()
     {
@@ -32,15 +33,15 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    // public void SpawnExtraLife(Vector2 pos)
-    // {
-    //     if (extraLifePrefab == null) return;
-    //     Instantiate(extraLifePrefab, pos, Quaternion.identity);
-    // }
+    public void SpawnExtraLife(Vector2 pos)
+    {
+        if (extraLifePrefab == null) return;
+        Instantiate(extraLifePrefab, pos, Quaternion.identity);
+    }
 
-    // public void SpawnBomb(Vector2 pos)
-    // {
-    //     if (bombPrefab == null) return;
-    //     Instantiate(bombPrefab, pos, Quaternion.identity);
-    // }
+    public void SpawnBomb(Vector2 pos)
+    {
+        if (bombPrefab == null) return;
+        Instantiate(bombPrefab, pos, Quaternion.identity);
+    }
 }

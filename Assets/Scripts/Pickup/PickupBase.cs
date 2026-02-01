@@ -4,35 +4,44 @@ public abstract class PickupBase : MonoBehaviour
 {
     [Header("Collect")]
     [Tooltip("Extra radius added to the player's pickupRadius (feel-good).")]
-    [Min(0f)] public float pickupPadding = 0.0f;
+    [SerializeField] public float pickupPadding = 5f;
 
     [Header("Magnet (optional)")]
     public bool useMagnet = true;
-    [Min(0f)] public float magnetRadius = 80f;
-    [Min(0f)] public float magnetSpeed = 500f;
+    [SerializeField] public float magnetRadius = 80f;
+    [SerializeField] public float magnetSpeed = 500f;
 
     [Header("Fall (optional)")]
     public bool fallDown = true;
-    [Min(0f)] public float fallSpeed = 100f;
+    [SerializeField] public float fallSpeed = 100f;
 
     Transform player;
     PlayerStats stats;
 
+    void OnEnable()
+    {
+        ResolveRefs(); // important for pooled objects too
+    }
+
     protected virtual void Start()
     {
-        // Works without dragging anything in the Inspector
-        player = PlayerRegistry.PlayerTransform != null ? PlayerRegistry.PlayerTransform : (PlayerStats.Instance?.transform);
-        stats  = PlayerRegistry.PlayerStats != null ? PlayerRegistry.PlayerStats : PlayerStats.Instance;
+        ResolveRefs();
     }
 
     void Update()
     {
         float dt = Time.deltaTime;
 
+        // Always fall (independent from whether player refs exist)
         if (fallDown)
             transform.position += Vector3.down * (fallSpeed * dt);
 
-        if (player == null || stats == null) return;
+        // If refs missing, keep trying to resolve them
+        if (player == null || stats == null)
+        {
+            ResolveRefs();
+            return;
+        }
 
         Vector2 p = player.position;
         Vector2 me = transform.position;
@@ -42,6 +51,8 @@ public abstract class PickupBase : MonoBehaviour
         // Magnet
         if (useMagnet && dist <= magnetRadius && dist > 0.0001f)
         {
+            Debug.Log($"Magneting to: {player.name} at {player.position}");
+
             Vector2 dir = (p - me).normalized;
             transform.position += (Vector3)(dir * magnetSpeed * dt);
         }
@@ -53,6 +64,17 @@ public abstract class PickupBase : MonoBehaviour
             OnCollect(stats);
             Destroy(gameObject);
         }
+    }
+
+    void ResolveRefs()
+    {
+        // Prefer registry if available
+        if (PlayerRegistry.PlayerTransform != null) player = PlayerRegistry.PlayerTransform;
+        if (PlayerRegistry.PlayerStats != null) stats = PlayerRegistry.PlayerStats;
+
+        // Fallback to singleton if registry missing/not ready
+        if (player == null && PlayerStats.Instance != null) player = PlayerStats.Instance.transform;
+        if (stats == null) stats = PlayerStats.Instance;
     }
 
     protected abstract void OnCollect(PlayerStats stats);

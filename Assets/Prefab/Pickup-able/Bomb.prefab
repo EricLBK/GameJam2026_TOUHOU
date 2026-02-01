@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5915456611478375415}
   - component: {fileID: 6343031927412985206}
+  - component: {fileID: 920009372632110713}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -181,3 +182,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &920009372632110713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835678334348867616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94cc8175325cf9945b581b4a004ad23e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BombPickup
+  pickupPadding: 0
+  useMagnet: 1
+  magnetRadius: 80
+  magnetSpeed: 500
+  fallDown: 1
+  fallSpeed: 100
+  bombsToAdd: 1
