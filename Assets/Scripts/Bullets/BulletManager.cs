@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Enemy; // NEW
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Jobs; // REQUIRED
-using Enemy; // NEW
 
 namespace Bullets
 {
@@ -134,7 +134,6 @@ namespace Bullets
             float2 velocity,
             BulletPrefab prefab = null,
             BulletPath path = null,
-
             bool isPlayerBullet = false
         )
         {
@@ -187,22 +186,19 @@ namespace Bullets
 
         public void SpawnPattern(BulletPattern pattern, float2 initPosition)
         {
-            StartCoroutine(pattern(this, initPosition:initPosition));
+            StartCoroutine(pattern(this, initPosition: initPosition));
         }
 
         private IEnumerator ThrowCirclesAtPlayer(float2 startPos, float speed, float period)
         {
-            for (;;)
+            for (; ; )
             {
                 float2 velocity =
                     math.normalize((float2)(Vector2)playerTransform.position - startPos) * speed;
 
                 SpawnPattern(
-                    Patterns.ThrowCircle(
-                        radius: 50,
-                        count: 20,
-                        velocity: velocity
-                    ), initPosition: startPos
+                    Patterns.ThrowCircle(radius: 50, count: 20, velocity: velocity),
+                    initPosition: startPos
                 );
 
                 yield return new WaitForSeconds(period);
@@ -217,7 +213,10 @@ namespace Bullets
         {
             _bulletData.IsActive[i] = false;
             _bulletData.IsPlayerBullet[i] = false;
-            _bulletData.Position[i] = new float2(MoveBulletJob.FAR_AWAY.x, MoveBulletJob.FAR_AWAY.y);
+            _bulletData.Position[i] = new float2(
+                MoveBulletJob.FAR_AWAY.x,
+                MoveBulletJob.FAR_AWAY.y
+            );
             _bulletData.Velocity[i] = float2.zero;
 
             if (_transformAccessArray.isCreated)
@@ -239,14 +238,17 @@ namespace Bullets
         private void HandleEnemyHits()
         {
             var enemies = EnemyController.ActiveEnemies;
-            if (enemies == null || enemies.Count == 0) return;
+            if (enemies == null || enemies.Count == 0)
+                return;
 
             for (int bi = 0; bi < maxBullets; bi++)
             {
-                if (!_bulletData.IsActive[bi]) continue;
+                if (!_bulletData.IsActive[bi])
+                    continue;
 
                 // Only player bullets damage enemies
-                if (!_bulletData.IsPlayerBullet[bi]) continue;
+                if (!_bulletData.IsPlayerBullet[bi])
+                    continue;
 
                 float2 bp = _bulletData.Position[bi];
                 float br = _bulletData.Radius[bi];
@@ -254,7 +256,8 @@ namespace Bullets
                 for (int ei = 0; ei < enemies.Count; ei++)
                 {
                     var enemy = enemies[ei];
-                    if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+                    if (enemy == null || !enemy.gameObject.activeInHierarchy)
+                        continue;
 
                     enemy.GetHurtboxAabb(out var min, out var max);
 

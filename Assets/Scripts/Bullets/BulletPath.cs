@@ -35,6 +35,47 @@ namespace Bullets
             return path;
         }
 
+        public static BulletPath SpiralArc(float initialTurnRate, float decayRate = 0)
+        {
+            IEnumerable path(
+                Vector2 startVelocity,
+                Action<Vector2> setVelocity,
+                Func<Vector2> getPosition
+            )
+            {
+                Vector2 velocity = startVelocity;
+                float speed = velocity.magnitude;
+                if (speed < 1e-4f)
+                    yield break;
+
+                float turnRate = initialTurnRate;
+                float startTime = Time.time;
+
+                for (; ; )
+                {
+                    float t = Time.time - startTime;
+
+                    // Exponential decay of angular velocity
+                    float curTurnRate = turnRate * Mathf.Exp(-decayRate * t);
+
+                    float angle = curTurnRate * Time.deltaTime;
+
+                    float s = Mathf.Sin(angle);
+                    float c = Mathf.Cos(angle);
+
+                    Vector2 dir = velocity.normalized;
+                    dir = new Vector2(c * dir.x - s * dir.y, s * dir.x + c * dir.y);
+
+                    velocity = dir * speed;
+                    setVelocity(velocity);
+
+                    yield return null;
+                }
+            }
+
+            return path;
+        }
+
         // NEW: homing path
         public static BulletPath Homing(
             Transform target,

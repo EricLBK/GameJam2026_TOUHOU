@@ -18,7 +18,6 @@ namespace Bullets
     public class Patterns
     {
         public static BulletPattern Spiral(
-            // float2 position,
             int numberOfArms = 4, // How many "spokes" the spiral has
             float rotationSpeed = 90f, // Degrees per second
             float bulletSpeed = 50f,
