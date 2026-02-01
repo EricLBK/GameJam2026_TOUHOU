@@ -197,6 +197,13 @@ namespace Bullets
             StartCoroutine(stopPattern());
         }
 
+        public void SpawnPattern(BulletPattern[] patterns, float2 initPosition, float duration)
+        {
+            foreach (var pattern in patterns) {
+                SpawnPattern(pattern, initPosition, duration);
+            }
+        }
+
         // ----------------------------
         // NEW: Enemy hit resolution
         // ----------------------------
