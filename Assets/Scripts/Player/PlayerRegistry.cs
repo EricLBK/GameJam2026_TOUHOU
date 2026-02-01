@@ -9,5 +9,7 @@ public class PlayerRegistry : MonoBehaviour
     {
         PlayerStats = GetComponent<PlayerStats>();
         PlayerTransform = transform;
+
+        Debug.Log($"PlayerRegistry registered: {name} at {transform.position}");
     }
 }

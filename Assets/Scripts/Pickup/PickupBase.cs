@@ -3,27 +3,22 @@ using UnityEngine;
 public abstract class PickupBase : MonoBehaviour
 {
     [Header("Collect")]
-    [Tooltip("Extra radius added to the player's pickupRadius (feel-good).")]
     [Min(0f)] public float pickupPadding = 0.0f;
 
-    [Header("Magnet (optional)")]
+    [Header("Magnet")]
     public bool useMagnet = true;
-    [Min(0f)] public float magnetRadius = 80f;
-    [Min(0f)] public float magnetSpeed = 500f;
+    [Min(0f)] public float magnetRadius = 3f;
+    [Min(0f)] public float magnetSpeed = 10f;
 
-    [Header("Fall (optional)")]
+    [Header("Fall")]
     public bool fallDown = true;
-    [Min(0f)] public float fallSpeed = 100f;
+    [Min(0f)] public float fallSpeed = 2.5f;
 
     Transform player;
     PlayerStats stats;
 
-    protected virtual void Start()
-    {
-        // Works without dragging anything in the Inspector
-        player = PlayerRegistry.PlayerTransform != null ? PlayerRegistry.PlayerTransform : (PlayerStats.Instance?.transform);
-        stats  = PlayerRegistry.PlayerStats != null ? PlayerRegistry.PlayerStats : PlayerStats.Instance;
-    }
+    protected virtual void OnEnable() => ResolveRefs();
+    protected virtual void Start() => ResolveRefs();
 
     void Update()
     {
@@ -32,27 +27,47 @@ public abstract class PickupBase : MonoBehaviour
         if (fallDown)
             transform.position += Vector3.down * (fallSpeed * dt);
 
-        if (player == null || stats == null) return;
+        if (player == null || stats == null)
+        {
+            ResolveRefs();
+            return;
+        }
 
         Vector2 p = player.position;
         Vector2 me = transform.position;
 
-        float dist = (p - me).magnitude;
+        Vector2 delta = p - me;
+        float distSq = delta.sqrMagnitude;
 
         // Magnet
-        if (useMagnet && dist <= magnetRadius && dist > 0.0001f)
+        if (useMagnet && distSq <= magnetRadius * magnetRadius && distSq > 0.000001f)
         {
-            Vector2 dir = (p - me).normalized;
-            transform.position += (Vector3)(dir * magnetSpeed * dt);
+            transform.position += (Vector3)(delta.normalized * magnetSpeed * dt);
         }
 
-        // Collect (distance-based)
+        // Collect
         float collectR = stats.pickupRadius + pickupPadding;
-        if (dist <= collectR)
+        if (distSq <= collectR * collectR)
         {
             OnCollect(stats);
             Destroy(gameObject);
         }
+    }
+
+    void ResolveRefs()
+    {
+        if (PlayerRegistry.PlayerTransform != null) player = PlayerRegistry.PlayerTransform;
+        if (PlayerRegistry.PlayerStats != null) stats = PlayerRegistry.PlayerStats;
+
+        if (player == null)
+        {
+            var go = GameObject.FindGameObjectWithTag("Player");
+            if (go != null) player = go.transform;
+        }
+        if (stats == null && player != null)
+            stats = player.GetComponent<PlayerStats>();
+
+        if (stats == null) stats = PlayerStats.Instance;
     }
 
     protected abstract void OnCollect(PlayerStats stats);
