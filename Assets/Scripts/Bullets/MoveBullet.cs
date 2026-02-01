@@ -14,47 +14,45 @@ namespace Bullets
         public float DeltaTime;
         public float2 BoundsMin;
         public float2 BoundsMax;
-    
-        // We still need this to know if it's active and what its velocity is
-        public NativeArray<BulletData> Bullets; 
+
+        public static readonly Vector3 FAR_AWAY = new(1000, 1000, 0);
+
+        [ReadOnly]
+        public NativeArray<float2> Velocity;
+        public NativeArray<float2> Position;
+        public NativeArray<bool> IsActive;
 
         // The "Execute" signature is different for Transform jobs
         public void Execute(int index, TransformAccess transform)
         {
-            var b = Bullets[index];
-            if (!b.IsActive) 
-            {
-                // Optional: Hide inactive bullets by moving them far away
-                // Real pooling would disable the GameObject, but we can't do that in a Job.
-                transform.position = new Vector3(1000, 1000, 0); 
-                return;
-            }
+            if (!IsActive[index]) { return; }
 
             // 1. Update Position Logic
-            float3 currentPos = transform.position;
-            currentPos.x += b.Velocity.x * DeltaTime;
-            currentPos.y += b.Velocity.y * DeltaTime;
-            b.Position = new Vector2(transform.position.x, transform.position.y);
+            var v = Velocity[index];
+            var p = Position[index] + v * DeltaTime;
 
             // 2. Bounds Check
-            // if (currentPos.x < BoundsMin.x || currentPos.x > BoundsMax.x ||
-            //     currentPos.y < BoundsMin.y || currentPos.y > BoundsMax.y)
-            // {
-            //     b.IsActive = 0;
-            // }
-        
-            // 3. Apply changes
-            transform.position = currentPos;
-        
-            // 4. Update Rotation (Optional - align to velocity)
-            if (math.lengthsq(b.Velocity) > 0.001f)
+            if (p.x < BoundsMin.x || p.x > BoundsMax.x ||
+                p.y < BoundsMin.y || p.y > BoundsMax.y)
             {
-                var angle = math.atan2(b.Velocity.y, b.Velocity.x);
-                transform.rotation = quaternion.RotateZ(angle - math.PI / 2); // -90 deg offset for Up-facing sprites
+                IsActive[index] = false;
+                transform.position = FAR_AWAY;
+            }
+            else
+            {
+                // 3. Apply changes
+                transform.position = new Vector3(p.x, p.y);
+
+                // 4. Update Rotation (Optional - align to velocity)
+                if (math.lengthsq(v) > 0.001f)
+                {
+                    var angle = math.atan2(v.y, v.x);
+                    transform.rotation = quaternion.RotateZ(angle - math.PI / 2); // -90 deg offset for Up-facing sprites
+                }
             }
 
             // Write back state changes
-            Bullets[index] = b;
+            Position[index] = p;
         }
     }
 
@@ -63,29 +61,28 @@ namespace Bullets
     {
         public float2 PlayerPosition;
         public float PlayerRadiusSq; // squared radius
-        [ReadOnly] public NativeArray<BulletData> Bullets;
-        
+        [ReadOnly] public BulletData Bullets;
+
         [NativeDisableParallelForRestriction]
         [WriteOnly]
         public NativeReference<int> HitDetected;
-        
-        
+
+
         public void Execute(int index)
         {
-            var bullet = Bullets[index];
-            if (!bullet.IsActive)
+            if (!Bullets.IsActive[index])
             {
                 return;
             }
 
-            var distSq = math.distancesq(bullet.Position, PlayerPosition);
-            var combinedRadius = bullet.Radius;
+            var distSq = math.distancesq(Bullets.Position[index], PlayerPosition);
+            var combinedRadius = Bullets.Radius[index];
             // Debug.Log($"bullet pos: {bullet.Position}, player pos: {PlayerPosition}");
-            
+
             if (!(distSq < (combinedRadius * combinedRadius) + PlayerRadiusSq)) return;
-            
+
             HitDetected.Value = 1;
-            Debug.Log("Hit!");
+            // Debug.Log("Hit!");
         }
     }
 }
