@@ -6,6 +6,8 @@ namespace Player
     {
         [SerializeField] private float normalSpeed = 400.0f;
         [SerializeField] private float focusSpeed = 160.0f;
+        private float _xScaleOfPlayer;
+        private float _yScaleOfPlayer;
 
         private float _screenHeight;
         private float _screenWidth;
@@ -25,6 +27,8 @@ namespace Player
             _screenHeight = Screen.height/2;
             _screenWidth = Screen.width/2;
             CalculateBoundaries();
+            _xScaleOfPlayer = this.transform.localScale.x;
+            _yScaleOfPlayer = this.transform.localScale.y;
 
             
         }
@@ -74,8 +78,8 @@ namespace Player
 
 
             //clamping character movement
-            var clampedX = Mathf.Clamp(newPos.x, -_FOPwidth, _FOPwidth);
-            var clampedY = Mathf.Clamp(newPos.y, -_FOPheight, _FOPheight);
+            var clampedX = Mathf.Clamp(newPos.x, -_FOPwidth+_xScaleOfPlayer/2, _FOPwidth-_xScaleOfPlayer/2);
+            var clampedY = Mathf.Clamp(newPos.y, -_FOPheight+_yScaleOfPlayer/2, _FOPheight-_yScaleOfPlayer/2);
             var clampedPos = new Vector3(clampedX,clampedY,newPos.z);
 
 
