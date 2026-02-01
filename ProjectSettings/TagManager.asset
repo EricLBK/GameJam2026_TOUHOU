@@ -51,5 +51,8 @@ TagManager:
   - name: Hitbox
     uniqueID: 871543913
     locked: 0
+  - name: ReimuBullet
+    uniqueID: 3266800747
+    locked: 0
   m_RenderingLayers:
   - Default

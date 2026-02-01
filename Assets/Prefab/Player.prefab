@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 871543913
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0.2043749, b: 0.17924517, a: 1}
@@ -103,6 +103,9 @@ GameObject:
   - component: {fileID: 1004453856445174543}
   - component: {fileID: -280805687738361174}
   - component: {fileID: 7500280824409916055}
+  - component: {fileID: 8848841113821689204}
+  - component: {fileID: 3155186983514574494}
+  - component: {fileID: 9174123759254855673}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -211,11 +214,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f9455bf0f8368643ae01669ec025e6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  startingLives: 3
+  startingBombs: 2
+  maxLives: 5
+  maxBombs: 5
   pickupRadius: 40
-  lives: 3
-  bombs: 2
-  score: 0
-  souls: 0
 --- !u!114 &7500280824409916055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,3 +231,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9901dcf2156ea0a4094719d1f6295151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+--- !u!114 &8848841113821689204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835678334348867616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f78179890cd7f4aae41f5ad37a7cbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bullets.ReimuShooter
+  bulletManager: {fileID: 0}
+  fireKey: 122
+  focusKeyLeft: 304
+  focusKeyRight: 303
+  firePeriodNormal: 0.12
+  firePeriodFocus: 0.08
+  bulletSpeed: 350
+  bulletRadius: 50
+  muzzleForwardOffset: 0
+  spreadDeg: 15
+  target: {fileID: 0}
+  turnRateDegPerSec: 240
+  homingDelaySeconds: 0.35
+  focusLaneSpacing: 30
+--- !u!95 &3155186983514574494
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835678334348867616}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5f0ad0b5dfb941740ac5077d579a3eb5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9174123759254855673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835678334348867616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0ceb83661e74b24e8bbf1b2759a3d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReimuSlideAnimator
+  animator: {fileID: 3155186983514574494}
+  deadZone: 0.1
