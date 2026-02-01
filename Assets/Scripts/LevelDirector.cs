@@ -13,10 +13,15 @@ public class LevelDirector : MonoBehaviour
     [SerializeField] private GameObject dialogueManager;
     [SerializeField] private DialogueAsset dialogueAsset1;
     [SerializeField] private DialogueAsset dialogueAsset2;
+    [SerializeField] private GameObject _bullet2; 
+    [SerializeField] private GameObject _bullet3;
+    private GameObject _bullet1;
     private DialogueController _dialogueController;
+    
     private GameObject _horsePrefab;
     private GameObject _fairy1Prefab;
     private GameObject _fairy2Prefab;
+
     
     private Rect _bounds;
 
@@ -33,6 +38,8 @@ public class LevelDirector : MonoBehaviour
         _horsePrefab = Resources.Load<GameObject>("Prefab/Enemy/Horse_1_0");
         _fairy1Prefab = Resources.Load<GameObject>("Prefab/Enemy/Fairy1");
         _fairy2Prefab = Resources.Load<GameObject>("Prefab/Enemy/Fairy2");
+
+        _bullet1 = Resources.Load<GameObject>("Prefab/Bullets/AnimatedBullet/Pink");
         _dialogueController = dialogueManager.GetComponent<DialogueController>();
         Phase1();
         GameEventManager.Instance.ScheduleEvent(12.0f, StartDialogue1);
@@ -62,12 +69,12 @@ public class LevelDirector : MonoBehaviour
         var enemyPath = ScriptableObject.CreateInstance<EnemyPath>();
         enemyPath.points = new[]
         {
-            new Vector2(0, _bounds.yMax),                  // P0: Start (Top Center)
-            new Vector2(_bounds.xMax, _bounds.yMin),       // P1: Loop Right side
-            new Vector2(_bounds.xMin, _bounds.yMin),       // P2: Loop Left side
+            new Vector2(_bounds.xMax, _bounds.yMax),                  // P0: Start (Top Center)
+            new Vector2(_bounds.xMax, _bounds.yMax / 2),       // P1: Loop Right side
+            new Vector2(_bounds.xMax / 3, _bounds.yMax / 3),       // P2: Loop Left side
             new Vector2(0, _bounds.yMax)                   // P3: End (Top Center Edge)
         };
-        _enemyManager.SpawnEnemy(enemyPath, 10, 30, _fairy2Prefab, speed:1.0f);
+        _enemyManager.SpawnEnemy(enemyPath, 10, 30, _fairy2Prefab, speed:0.3f);
         yield return null;
     }
 
@@ -81,7 +88,7 @@ public class LevelDirector : MonoBehaviour
             new Vector2(_bounds.xMax / 2, _bounds.yMax /2),
             new Vector2(_bounds.xMin, _bounds.yMax)
         };
-        _enemyManager.SpawnEnemy(enemyPath, 10, 40, _horsePrefab, speed:0.5f);
+        _enemyManager.SpawnEnemy(enemyPath, 10, 40, _horsePrefab, speed:0.3f);
         yield return null;
     }
 
