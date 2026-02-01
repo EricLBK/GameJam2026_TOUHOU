@@ -5,7 +5,7 @@ public class MainMenuUI : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadSceneAsync("TylerScene");
+        SceneManager.LoadSceneAsync("GoodMainScene");
     }
     public void DemoGame()
     {

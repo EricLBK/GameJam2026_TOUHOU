@@ -591,88 +591,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -540}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &245241621
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 245241624}
-  - component: {fileID: 245241623}
-  - component: {fileID: 245241625}
-  - component: {fileID: 245241626}
-  m_Layer: 0
-  m_Name: GameObject4Testing
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &245241623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245241621}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e80c2403db4288648b784f2d75aeadb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyTest
-  enemyPrefab: {fileID: 7835678334348867616, guid: 50e1c0aaa4b1d5b4b9406cb988dc8ba0, type: 3}
-  count: 1
-  value: 50
-  radius: 500
---- !u!4 &245241624
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245241621}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &245241625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245241621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 809b0a8e37dd64549ae129534f8d7563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoulTestSpawner
-  count: 1
-  value: 50
-  radius: 500
---- !u!114 &245241626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245241621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 226778a53dbf1f64dbcf3a5b26c76363, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickupTestSpawner
-  soulPrefab: {fileID: 7835678334348867616, guid: 32bd1338dd6539b40a9ccb3d21ba8398, type: 3}
-  lifePrefab: {fileID: 7835678334348867616, guid: 22d002dfb3bbe1c46a2edb818501137e, type: 3}
-  bombPrefab: {fileID: 7835678334348867616, guid: e35cb1d72051a844c95fa9012009048c, type: 3}
-  radius: 500
-  burstCount: 10
 --- !u!1 &245457939
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,7 +1692,7 @@ Transform:
   m_GameObject: {fileID: 535581974}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 730, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 200, y: 200, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2675,7 +2593,7 @@ PrefabInstance:
     - target: {fileID: 3086516392159122262, guid: 37abd18a7a22cc74593a16d0ed088dc4, type: 3}
       propertyPath: sprites.Array.data[9].sprite
       value: 
-      objectReference: {fileID: 8995154407686431259, guid: 6e33034d85c66ff4b948798950d0ae50, type: 3}
+      objectReference: {fileID: 8995154407686431259, guid: ea5eb63c768a7f04597f9fa42ff37961, type: 3}
     - target: {fileID: 3793607445370246304, guid: 37abd18a7a22cc74593a16d0ed088dc4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1058.5491
@@ -3745,7 +3663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1196384857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4838,8 +4756,6 @@ MonoBehaviour:
   multiplierDigits: {fileID: 463695641}
   soulsDigits: {fileID: 1114420691}
   killsDigits: {fileID: 455457421}
-  soulsText: {fileID: 1111829093}
-  killsText: {fileID: 1661656101}
   livesCountText: {fileID: 1929218928}
   bombsCountText: {fileID: 1312305222}
   lifeIcons:
@@ -6522,7 +6438,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 74094514}
-  - {fileID: 245241624}
   - {fileID: 1919966956}
   - {fileID: 6907090503165488796}
   - {fileID: 618360866}
