@@ -16,6 +16,6 @@ public class StartDialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(dialogue);
+        
     }
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0d59c8c10f642541826382d940e3b24, type: 3}
-  m_Name: Dialogue2Asset 1
+  m_Name: Dialogue2Asset
   m_EditorClassIdentifier: Assembly-CSharp::DialogueAsset
   lines:
   - speaker: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
     text: 'What? This again?
 
 '
-    leftPortraitKey: 
+    leftPortraitKey: fairy2_normal
     rightPortraitKey: reimu_angry
   - speaker: 0
     name: 'Evil Fairy 2 '
