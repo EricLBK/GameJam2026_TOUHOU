@@ -23,3 +23,23 @@ MonoBehaviour:
     text: Okay PersonB but i am person A and i don`t care
     leftPortraitKey: A
     rightPortraitKey: B
+  - speaker: 0
+    name: PersonA
+    text: Are you enjoying your bubble tea?
+    leftPortraitKey: A
+    rightPortraitKey: B
+  - speaker: 1
+    name: PersonB
+    text: YES
+    leftPortraitKey: A
+    rightPortraitKey: B
+  - speaker: 1
+    name: PersonB
+    text: ...
+    leftPortraitKey: B
+    rightPortraitKey: D
+  - speaker: 1
+    name: PersonB
+    text: What
+    leftPortraitKey: B
+    rightPortraitKey: D
