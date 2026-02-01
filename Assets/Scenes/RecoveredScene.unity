@@ -548,13 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy.EnemyManager
   enemyPrefab: {fileID: 1001245894}
-  bounds:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 32
-    height: 32
-  radius: 100
+  testSprite: {fileID: 0}
 --- !u!4 &1286000798
 Transform:
   m_ObjectHideFlags: 0
