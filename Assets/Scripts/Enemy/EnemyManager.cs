@@ -42,10 +42,10 @@ namespace Enemy
         }
 
         // Always make sure spawn enemy is called before this!
-        public void SpawnPattern(BulletPattern pattern)
+        public void SpawnPattern(BulletPattern pattern, float duration)
         {
             if(_curController != null)
-                _curController.SpawnPattern(pattern);
+                _curController.SpawnPattern(pattern, duration);
         }
 
         private EnemyController GetFromPool([CanBeNull] GameObject prefab)

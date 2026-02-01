@@ -11,6 +11,11 @@ namespace Bullets
             var radian = degree * Mathf.Deg2Rad;
             return new Vector2(Mathf.Cos(radian), Mathf.Sin(radian));
         }
+
+        public static Vector2 RadToVector2(float rad)
+        {
+            return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+        }
     }
 
     public delegate IEnumerator BulletPattern(BulletManager manager, float2 initPosition);
@@ -18,12 +23,10 @@ namespace Bullets
     public class Patterns
     {
         public static BulletPattern Spiral(
-            // float2 position,
             int numberOfArms = 4, // How many "spokes" the spiral has
             float rotationSpeed = 90f, // Degrees per second
             float bulletSpeed = 50f,
             bool spinClockwise = true,
-            float duration = 10.0f,
             BulletPath path = null,
             BulletPrefab prefab = null
         )
@@ -31,12 +34,11 @@ namespace Bullets
             IEnumerator execute(BulletManager manager, float2 initPosition)
             {
                 var startTime = Time.time;
-                var endTime = startTime + duration;
 
                 // Angle step for multiple arms (e.g., 3 arms = 120 degrees apart)
                 var angleStep = 360f / numberOfArms;
 
-                while (Time.time < endTime)
+                for (; ; )
                 {
                     // Calculate the base angle based on time
                     // (time * speed) makes it rotate over time
@@ -84,16 +86,13 @@ namespace Bullets
             float bulletSpeed = 300f,
             float spreadDegrees = 8f,
             float firePeriod = 0.5f,
-            float duration = 5.0f,
             BulletPath path = null,
             BulletPrefab prefab = null
         )
         {
             IEnumerator execute(BulletManager manager, float2 initPosition)
             {
-                var endTime = Time.time + duration;
-
-                while (Time.time < endTime)
+                for (; ; )
                 {
                     Vector2 initPositionV2 = new Vector2(initPosition.x, initPosition.y);
                     Vector2 targetPos = target.position;
@@ -116,6 +115,66 @@ namespace Bullets
                         );
                     }
 
+                    yield return new WaitForSeconds(firePeriod);
+                }
+            }
+
+            return execute;
+        }
+
+        public static BulletPattern Walls(
+            int numberOfWalls,
+            int armsPerWall,
+            int armsPerGap,
+            float baseAngle = 0, // TODO: not sure what this should be
+            float bulletSpeed = 50f,
+            float firePeriod = 0.5f,
+            BulletPrefab prefab = null
+        )
+        {
+            IEnumerator execute(BulletManager manager, float2 initPosition)
+            {
+                int armsPerSector = armsPerWall + armsPerGap;
+                int totalArms = armsPerSector * numberOfWalls;
+
+                for (; ; )
+                {
+                    for (int i = 0; i < numberOfWalls; ++i)
+                    {
+                        for (int j = 0; j < armsPerWall; ++j)
+                        {
+                            float angle =
+                                (baseAngle + ((i * armsPerSector) + j) / (float)totalArms)
+                                * math.PI2;
+                            Vector2 vel = Util.RadToVector2(angle) * bulletSpeed;
+
+                            manager.SpawnBullet(
+                                position: initPosition,
+                                velocity: vel,
+                                prefab: prefab
+                            );
+                        }
+                    }
+                    yield return new WaitForSeconds(firePeriod);
+
+                    for (int i = 0; i < numberOfWalls; ++i)
+                    {
+                        for (int j = armsPerGap; j < armsPerSector; ++j)
+                        {
+                            float angle =
+                                (
+                                    baseAngle
+                                    + ((2 * (i * armsPerSector + j) + 1) / (float)(2 * totalArms))
+                                ) * math.PI2;
+                            Vector2 vel = Util.RadToVector2(angle) * bulletSpeed;
+
+                            manager.SpawnBullet(
+                                position: initPosition,
+                                velocity: vel,
+                                prefab: prefab
+                            );
+                        }
+                    }
                     yield return new WaitForSeconds(firePeriod);
                 }
             }
