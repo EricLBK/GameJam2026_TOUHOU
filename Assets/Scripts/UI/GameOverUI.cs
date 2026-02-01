@@ -9,7 +9,7 @@ public class GameOverUI : MonoBehaviour
     }
     public void PlayAgain()
     {
-        SceneManager.LoadSceneAsync("MainScene");
+        SceneManager.LoadSceneAsync("TylerScene");
     }
     public void ExitGame()
     {
