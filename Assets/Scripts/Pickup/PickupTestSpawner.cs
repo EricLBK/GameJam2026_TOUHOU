@@ -22,19 +22,6 @@ public class PickupTestSpawner : MonoBehaviour
             for (int i = 0; i < burstCount; i++)
                 Spawn(soulPrefab, Random.insideUnitCircle * radius);
         }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            // quick reset for testing
-            var s = PlayerStats.Instance;
-            if (s != null)
-            {
-                s.score = 0;
-                s.souls = 0;
-                s.lives = 3;
-                s.bombs = 2;
-            }
-        }
     }
 
     void Spawn(GameObject prefab, Vector2 offset = default)

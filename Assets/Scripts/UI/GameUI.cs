@@ -14,20 +14,12 @@ public class BulletHellUILayout_UIOnly : MonoBehaviour
     [SerializeField] private float playAspectW = 730f;
     [SerializeField] private float playAspectH = 850f;
 
-    [Tooltip("Playfield height as % of screen height")]
-    [Range(0f, 1f)]
-    [SerializeField] private float playHeightPct = 0.93f;
-
-    [Tooltip("Playfield width cap as % of screen width")]
-    [Range(0f, 1f)]
-    [SerializeField] private float playMaxWidthPct = 0.45f;
-
     [Header("Right Panel")]
-    [Tooltip("Right panel target width as % of screen width")]
+    [Tooltip("Right panel target width as % of screen width (when space allows)")]
     [Range(0f, 1f)]
     [SerializeField] private float rightPanelWidthPct = 0.26f;
 
-    [Header("Spacing (in pixels at current resolution)")]
+    [Header("Spacing (pixels)")]
     [SerializeField] private float gapAfterLeftArt = 0f;
     [SerializeField] private float gapAfterPlayfield = 0f;
     [SerializeField] private float gapAfterRightPanel = 0f;
@@ -57,56 +49,47 @@ public class BulletHellUILayout_UIOnly : MonoBehaviour
 
         float aspect = playAspectW / playAspectH;
 
-        // 1) Playfield target size (aspect preserved)
-        float targetPlayH = playHeightPct * H;
-        float playW_fromH = targetPlayH * aspect;
+        // 1) Playfield fills full height, width derived from aspect
+        float playH = H;
+        float playW = playH * aspect;
 
-        float maxPlayW = playMaxWidthPct * W;
+        // 2) Desired right panel width
+        float desiredPanelW = rightPanelWidthPct * W;
 
-        float playW = playW_fromH;
-        float playH = targetPlayH;
-
-        if (playW > maxPlayW)
-        {
-            playW = maxPlayW;
-            playH = playW / aspect;
-        }
-
-        // 2) Right panel desired width
-        float desiredRightPanelW = rightPanelWidthPct * W;
-
-        // 3) Allocate remaining width to art first. If not enough, shrink right panel last.
+        // 3) Remaining width goes to arts first (equal widths), then panel shrinks if needed
         float fixedGaps = gapAfterLeftArt + gapAfterPlayfield + gapAfterRightPanel;
-        float remainingForArt = W - (playW + desiredRightPanelW + fixedGaps);
+        float remainingForArt = W - (playW + desiredPanelW + fixedGaps);
 
         float artW;
         float panelW;
 
         if (remainingForArt >= 0f)
         {
-            // Plenty of room: keep panel at target, split art evenly
+            // Enough space: keep panel at target width, split art equally
             artW = remainingForArt * 0.5f;
-            panelW = desiredRightPanelW;
+            panelW = desiredPanelW;
         }
         else
         {
-            // Tight: art shrinks to 0 first, then panel shrinks
+            // Not enough space: art shrinks to 0 first...
             artW = 0f;
+
+            // ...then panel shrinks to whatever is left
             panelW = Mathf.Max(0f, W - (playW + fixedGaps));
         }
 
         // ---- Apply transforms ----
         SetupFullHeightLeftAnchored(leftArt);
+        SetupFullHeightLeftAnchored(playfield);
         SetupFullHeightLeftAnchored(rightPanel);
         SetupFullHeightLeftAnchored(rightArt);
-        SetupCenteredLeftAnchored(playfield);
 
         leftArt.sizeDelta = new Vector2(artW, 0f);
-        rightArt.sizeDelta = new Vector2(artW, 0f);
+        playfield.sizeDelta = new Vector2(playW, 0f);     // height is driven by anchors (full height)
         rightPanel.sizeDelta = new Vector2(panelW, 0f);
-        playfield.sizeDelta = new Vector2(playW, playH);
+        rightArt.sizeDelta = new Vector2(artW, 0f);
 
-        // Lay out left -> right in one row
+        // Layout left -> right
         float x = 0f;
 
         leftArt.anchoredPosition = new Vector2(x, 0f);
@@ -123,17 +106,11 @@ public class BulletHellUILayout_UIOnly : MonoBehaviour
 
     static void SetupFullHeightLeftAnchored(RectTransform rt)
     {
+        // Left anchored, full height
         rt.anchorMin = new Vector2(0f, 0f);
         rt.anchorMax = new Vector2(0f, 1f);
         rt.pivot = new Vector2(0f, 0.5f);
         rt.offsetMin = new Vector2(rt.offsetMin.x, 0f);
         rt.offsetMax = new Vector2(rt.offsetMax.x, 0f);
-    }
-
-    static void SetupCenteredLeftAnchored(RectTransform rt)
-    {
-        rt.anchorMin = new Vector2(0f, 0.5f);
-        rt.anchorMax = new Vector2(0f, 0.5f);
-        rt.pivot = new Vector2(0f, 0.5f);
     }
 }

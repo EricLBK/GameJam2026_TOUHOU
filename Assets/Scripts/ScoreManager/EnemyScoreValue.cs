@@ -16,7 +16,7 @@ public class EnemyScoreValue : MonoBehaviour
     {
         // 1) score
         if (ScoreKeeper.Instance != null)
-            ScoreKeeper.Instance.AddKill(baseScore);
+            // ScoreKeeper.Instance.AddKill(baseScore);
 
         // 2) spawn souls
         if (ItemManager.Instance != null)
