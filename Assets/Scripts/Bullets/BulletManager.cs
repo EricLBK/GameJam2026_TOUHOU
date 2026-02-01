@@ -134,50 +134,57 @@ namespace Bullets
         }
 
         public void SpawnBullet(
-            float2 position,
-            float2 velocity,
-            BulletPath path = null,
-            float radius = 50.0f
-        )
+    float2 position,
+    float2 velocity,
+    BulletPath path = null,
+    float radius = 50.0f
+)
+{
+    _collisionHandle.Complete();
+    _moveHandle.Complete();
+
+    int i = FindNextSlot();
+    if (i == -1)
+    {
+        return;
+    }
+
+    _bulletData.IsActive[i] = true;
+    _bulletData.Position[i] = position;
+    _bulletData.Velocity[i] = velocity;
+    _bulletData.Radius[i] = radius;
+
+    if (path == null)
+    {
+        return;
+    }
+
+    void setVelocity(Vector2 v)
+    {
+        _bulletData.Velocity[i] = (float2)v;
+    }
+
+    Vector2 getPosition()
+    {
+        float2 p = _bulletData.Position[i];
+        return new Vector2(p.x, p.y);
+    }
+
+    IEnumerator moveBulletWhileActive()
+    {
+        foreach (var step in path((Vector2)velocity, setVelocity, getPosition))
         {
-            _collisionHandle.Complete();
-            _moveHandle.Complete();
-
-            int i = FindNextSlot();
-            if (i == -1)
+            if (!_bulletData.IsActive[i])
             {
-                return;
+                yield break;
             }
-
-            _bulletData.IsActive[i] = true;
-            _bulletData.Position[i] = position;
-            _bulletData.Velocity[i] = velocity;
-            _bulletData.Radius[i] = radius;
-
-            if (path == null)
-            {
-                return;
-            }
-
-            void setVelocity(Vector2 v)
-            {
-                _bulletData.Velocity[i] = v;
-            }
-
-            IEnumerator moveBulletWhileActive()
-            {
-                foreach (var step in path(velocity, setVelocity))
-                {
-                    if (!_bulletData.IsActive[i])
-                    {
-                        yield break;
-                    }
-                    yield return step;
-                }
-            }
-
-            StartCoroutine(moveBulletWhileActive());
+            yield return step;
         }
+    }
+
+    StartCoroutine(moveBulletWhileActive());
+}
+
 
         void SpawnPattern(BulletPattern pattern)
         {
