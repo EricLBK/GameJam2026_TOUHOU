@@ -203,9 +203,14 @@ namespace Bullets
             StartCoroutine(moveBulletWhileActive());
         }
 
-        public void SpawnPattern(BulletPattern pattern, float2 initPosition, float duration)
+        // duration of 0 means run forever
+        public void SpawnPattern(BulletPattern pattern, float2 initPosition, float duration = 0)
         {
             var handle = StartCoroutine(pattern(this, initPosition: initPosition));
+
+            if (duration == 0) {
+                return;
+            }
 
             IEnumerator stopPattern()
             {
@@ -216,11 +221,11 @@ namespace Bullets
             StartCoroutine(stopPattern());
         }
 
-        public void SpawnPattern(BulletPattern[] patterns, float2 initPosition, float duration)
+        public void SpawnPattern(BulletPattern[] patterns, float2 initPosition, float duration = 0)
         {
             foreach (var pattern in patterns)
             {
-                SpawnPattern(pattern, initPosition, duration);
+                SpawnPattern(pattern, initPosition, duration: duration);
             }
         }
 
