@@ -6,19 +6,23 @@ namespace Bullets
     public class ReimuShooter : MonoBehaviour
     {
         [Header("Refs")]
-        public BulletManager bulletManager;   // Drag your BulletManager here
+        public BulletManager bulletManager;
 
-        [Header("Fire Settings")]
+        [Header("Input")]
         public KeyCode fireKey = KeyCode.Z;
-        public float firePeriod = 0.12f;      // seconds between shots when holding key
+        public float firePeriod = 0.12f;
+
+        [Header("Bullet")]
         public float bulletSpeed = 350f;
+        public float bulletRadius = 50f;
 
-        [Header("Shotgun Settings")]
-        public float spreadDeg = 15f;         // angle between adjacent pellets
-        public float bulletRadius = 50f;      // passed into SpawnBullet for collision logic
+        [Header("Shotgun")]
+        public float spreadDeg = 15f;          // angle between adjacent pellets
+        public float muzzleForwardOffset = 0f; // optional: push spawn slightly upward
 
-        [Header("Optional Spawn Offset")]
-        public float muzzleForwardOffset = 0f; // set >0 if you want bullets to start slightly above Reimu
+        [Header("Homing (only if target exists)")]
+        public Transform target;               // null => no enemies => straight shots
+        public float turnRateDegPerSec = 240f;
 
         private float _nextFireTime;
 
@@ -31,25 +35,36 @@ namespace Bullets
 
             _nextFireTime = Time.time + firePeriod;
 
-            // Reimu origin in world space
             Vector2 originV2 = transform.position;
-
-            // Touhou-style base direction: straight up (90 degrees)
-            float baseDeg = 90f;
-
-            // Optional small forward offset (still centered on origin)
             Vector2 spawnV2 = originV2 + Vector2.up * muzzleForwardOffset;
 
-            // 5 pellets: -2, -1, 0, +1, +2 (mirrored)
-            for (int k = -2; k <= 2; k++)
+            // Always shoot "forward" (straight up) for base spread.
+            // Homing bullets will steer after spawn if target exists.
+            float baseDeg = 90f;
+
+            BulletPath homingPath = null;
+            if (target != null)
+                homingPath = Paths.Homing(target, turnRateDegPerSec);
+
+            // k values map to pellets:
+            // k=+2 => far right  (pellet #1)  HOMING
+            // k=+1 => right      (pellet #2)  STRAIGHT
+            // k= 0 => center     (pellet #3)  STRAIGHT
+            // k=-1 => left       (pellet #4)  STRAIGHT
+            // k=-2 => far left   (pellet #5)  HOMING
+            for (int k = 2; k >= -2; k--) // iterate right -> left to match your numbering
             {
                 float deg = baseDeg + (k * spreadDeg);
                 Vector2 vel2 = Util.DegreeToVector2(deg) * bulletSpeed;
 
+                // Only extremes home; middle three always straight
+                BulletPath pathForThisBullet =
+                    (homingPath != null && (k == 2 || k == -2)) ? homingPath : null;
+
                 bulletManager.SpawnBullet(
                     position: new float2(spawnV2.x, spawnV2.y),
                     velocity: (float2)vel2,
-                    path: null,
+                    path: pathForThisBullet,
                     radius: bulletRadius
                 );
             }
