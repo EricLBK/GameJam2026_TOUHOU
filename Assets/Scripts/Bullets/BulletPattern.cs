@@ -77,5 +77,50 @@ namespace Bullets
             }
             return execute;
         }
+        public static BulletPattern Shotgun(
+    float2 origin,
+    Transform target,
+    float bulletSpeed = 300f,
+    float spreadDegrees = 8f,
+    float firePeriod = 0.5f,
+    float duration = 5.0f,
+    BulletPath path = null,
+    float radius = 50f
+)
+{
+    IEnumerator execute(BulletManager manager)
+    {
+        var endTime = Time.time + duration;
+
+        while (Time.time < endTime)
+        {
+            Vector2 originV2 = new Vector2(origin.x, origin.y);
+            Vector2 targetPos = target.position;
+
+            Vector2 aimDir = (targetPos - originV2).normalized;
+            float baseDeg = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+
+            // 5 bullets: -2, -1, 0, +1, +2 (mirrored around center)
+            for (int k = -2; k <= 2; k++)
+            {
+                float deg = baseDeg + (k * spreadDegrees);
+                Vector2 vel = Util.DegreeToVector2(deg) * bulletSpeed;
+
+                // SpawnBullet expects float2 velocity in your BulletManager signature
+                manager.SpawnBullet(
+                    position: origin,
+                    velocity: (float2)vel,
+                    radius: radius,
+                    path: path
+                );
+            }
+
+            yield return new WaitForSeconds(firePeriod);
+        }
+    }
+
+    return execute;
+}
+
     }
 }
