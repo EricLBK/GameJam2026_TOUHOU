@@ -10,20 +10,23 @@ namespace Enemy
 {
     public class EnemyManager : MonoBehaviour
     {
-
         [SerializeField] private GameObject enemyPrefab;
-        private Queue<EnemyController> _pool;
+        
+        // CHANGE 1: Use a Dictionary to store separate pools for each enemy type
+        private Dictionary<string, Queue<EnemyController>> _pools;
+        
         private Vector3 _scale;
         private BulletManager _bulletManager;
         private EnemyController _curController;
 
         private void Start()
         {
-            _pool = new Queue<EnemyController>();
+            // CHANGE 2: Initialize the dictionary
+            _pools = new Dictionary<string, Queue<EnemyController>>();
             _bulletManager = gameObject.GetComponent<BulletManager>();
         }
 
-        public void SpawnEnemy(EnemyPath path, int scoreDrops, float radius,[CanBeNull] GameObject gamePrefab, float speed = 1.0f)
+        public void SpawnEnemy(EnemyPath path, int scoreDrops, float radius, [CanBeNull] GameObject gamePrefab, float speed = 1.0f)
         {
             if (gamePrefab != null)
             {
@@ -35,13 +38,16 @@ namespace Enemy
                     (radius * 2) / spriteSize.y,
                     1f);
             }
+            else
+            {
+                Debug.LogError("Cannot find prefab");
+            }
             
             var controller = GetFromPool(gamePrefab);
             controller.Initialize(path: path, bulletManager:_bulletManager, scoreDrops: scoreDrops, hitRadius: radius, speed: speed, returnToPool: ReturnToPool);
             _curController = controller;
         }
 
-        // Always make sure spawn enemy is called before this!
         public void SpawnPattern(BulletPattern pattern, float duration)
         {
             if(_curController != null)
@@ -50,19 +56,40 @@ namespace Enemy
 
         private EnemyController GetFromPool([CanBeNull] GameObject prefab)
         {
-            if (_pool.Count > 0)
+            // fallback if prefab is null
+            var prefabToUse = prefab != null ? prefab : enemyPrefab;
+            string key = prefabToUse.name;
+
+            if (!_pools.ContainsKey(key))
             {
-                return _pool.Dequeue();
+                _pools[key] = new Queue<EnemyController>();
             }
 
-            var go = (prefab == null) ?  Instantiate(enemyPrefab, transform) : Instantiate(prefab, transform);
+            if (_pools[key].Count > 0)
+            {
+                return _pools[key].Dequeue();
+            }
+
+            var go = Instantiate(prefabToUse, transform);
+            go.name = key; 
             go.transform.localScale = _scale;
             return go.GetComponent<EnemyController>();
         }
 
         private void ReturnToPool(EnemyController enemyController)
         {
-           _pool.Enqueue(enemyController); 
+            // CHANGE 3: Put it back in the correct pool based on its name
+            string key = enemyController.gameObject.name;
+            
+            if (!_pools.ContainsKey(key))
+            {
+                _pools[key] = new Queue<EnemyController>();
+            }
+            
+            _pools[key].Enqueue(enemyController); 
+            
+            // Disable object so it doesn't run while in pool
+            enemyController.gameObject.SetActive(false);
         }
     }
 }
