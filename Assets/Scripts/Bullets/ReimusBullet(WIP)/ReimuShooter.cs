@@ -86,7 +86,6 @@ namespace Bullets
                     position: new float2(lanePos2.x, lanePos2.y),
                     velocity: vel,
                     path: null,
-                    radius: bulletRadius,
                     isPlayerBullet: true
                 );
             }
@@ -115,7 +114,6 @@ namespace Bullets
                     position: new float2(spawnV2.x, spawnV2.y),
                     velocity: (float2)vel2,
                     path: pathForThisBullet,
-                    radius: bulletRadius,
                     isPlayerBullet: true
                 );
             }

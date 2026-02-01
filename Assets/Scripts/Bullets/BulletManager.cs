@@ -13,11 +13,11 @@ namespace Bullets
     {
         public Rect bounds = new(-1000f, -1000f, 2000f, 2000f);
         public int maxBullets = 2000;
-        public GameObject bulletPrefab;
 
         public Transform playerTransform;
         public float playerHitBoxRadius = 10;
-        public float bulletRadius = 50;
+
+        public BulletPrefabs bulletPrefabs;
 
         // NEW: how much damage player bullets deal to enemies
         public float playerBulletDamage = 1f;
@@ -38,27 +38,17 @@ namespace Bullets
             _bulletData = new BulletData(maxBullets);
             _playerHitFlag = new NativeReference<int>(Allocator.Persistent);
             _bulletPool = new List<GameObject>(maxBullets);
+            bulletPrefabs = BulletPrefabs.Load();
 
             // 1. Pre-instantiate all GameObjects (Object Pooling)
             var transforms = new Transform[maxBullets];
             for (var i = 0; i < maxBullets; i++)
             {
-                var go = Instantiate(bulletPrefab, transform);
-                var sr = bulletPrefab.GetComponent<SpriteRenderer>();
-                if (sr != null)
-                {
-                    _spriteSize = sr.sprite.bounds.size;
-                    var newScale = new Vector3(
-                        bulletRadius * 2 / _spriteSize.x,
-                        bulletRadius * 2 / _spriteSize.y,
-                        1f
-                    );
-                    go.transform.localScale = newScale;
-                }
-                go.transform.position = MoveBulletJob.FAR_AWAY;
-                go.SetActive(true);
+                var go = Instantiate(bulletPrefabs.blue.prefab, transform);
+                bulletPrefabs.blue.ApplyPropertiesTo(go);
                 _bulletPool.Add(go);
                 transforms[i] = go.transform;
+                go.transform.position = MoveBulletJob.FAR_AWAY;
             }
 
             // 2. Create the TransformAccessArray
@@ -138,13 +128,13 @@ namespace Bullets
         public void SpawnBullet(
             float2 position,
             float2 velocity,
+            BulletPrefab prefab = null,
             BulletPath path = null,
-            float radius = 50.0f,
+
             bool isPlayerBullet = false
         )
         {
-            _collisionHandle.Complete();
-            _moveHandle.Complete();
+            prefab = prefab ??= bulletPrefabs.blue;
 
             int i = FindNextSlot();
             if (i == -1)
@@ -155,10 +145,10 @@ namespace Bullets
             _bulletData.IsActive[i] = true;
             _bulletData.Position[i] = position;
             _bulletData.Velocity[i] = velocity;
-            _bulletData.Radius[i] = radius;
-
-            // NEW: tag ownership so only player bullets hurt enemies
             _bulletData.IsPlayerBullet[i] = isPlayerBullet;
+            _bulletData.Radius[i] = prefab.radius;
+
+            prefab.ApplyPropertiesTo(_bulletPool[i]);
 
             if (path == null)
             {
