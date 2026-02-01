@@ -440,13 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy.EnemyManager
   enemyPrefab: {fileID: 1001245894}
-  bounds:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 32
-    height: 32
-  radius: 100
+  testSprite: {fileID: 0}
 --- !u!4 &1286000798
 Transform:
   m_ObjectHideFlags: 0
@@ -654,7 +648,7 @@ Animator:
   m_GameObject: {fileID: 1015528906}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5f0ad0b5dfb941740ac5077d579a3eb5, type: 2}
+  m_Controller: {fileID: 9100000, guid: e6cad4e5e0c6c694fb0337365f168150, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
