@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Bullets
 {
@@ -278,6 +279,33 @@ namespace Bullets
                 }
             }
 
+            return execute;
+        }
+
+        public static BulletPattern DirectedScatter(
+            float spawnRadius,
+            float scatterRadius,
+            float bulletSpeed = 50f,
+            float firePeriod = 0.5f,
+            BulletPrefab prefab = null
+        )
+        {
+            IEnumerator execute(BulletManager manager, float2 initPosition)
+            {
+                for (; ; )
+                {
+                    var direction = math.normalize(
+                        (float2)(Vector2)manager.playerTransform.position - initPosition
+                    );
+                    var baseVelocity = direction * bulletSpeed;
+                    var spawnPos = initPosition + (float2)Random.insideUnitCircle * spawnRadius;
+                    var spawnVel = baseVelocity + (float2)Random.insideUnitCircle * scatterRadius;
+
+                    manager.SpawnBullet(position: spawnPos, velocity: spawnVel, prefab: prefab);
+
+                    yield return new WaitForSeconds(firePeriod);
+                }
+            }
             return execute;
         }
     }
