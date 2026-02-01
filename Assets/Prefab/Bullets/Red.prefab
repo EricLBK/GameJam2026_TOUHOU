@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5579420403788704225}
   - component: {fileID: 3631564350769509316}
   m_Layer: 0
-  m_Name: Pink
+  m_Name: Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: -303951727
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1727417701509272142, guid: b86122905318e4046a0f10cbcc24300e, type: 3}
+  m_Sprite: {fileID: -3155969551479349541, guid: 2dc2f4d9f60548e409ec4cb3bee263fd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
