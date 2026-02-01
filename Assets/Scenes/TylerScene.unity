@@ -346,6 +346,9 @@ GameObject:
   - component: {fileID: 1809045491}
   - component: {fileID: 1809045490}
   - component: {fileID: 1809045492}
+  - component: {fileID: 1809045494}
+  - component: {fileID: 1809045493}
+  - component: {fileID: 1809045495}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -366,13 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy.EnemyManager
   enemyPrefab: {fileID: 472710170271224162, guid: 635e018d8e6509c45bb31824db6eb3cd, type: 3}
-  bounds:
-    serializedVersion: 2
-    x: -1000
-    y: -1000
-    width: 2000
-    height: 2000
-  radius: 30
+  testSprite: {fileID: 0}
 --- !u!4 &1809045491
 Transform:
   m_ObjectHideFlags: 0
@@ -407,10 +404,47 @@ MonoBehaviour:
     width: 2000
     height: 2000
   maxBullets: 2000
-  bulletPrefab: {fileID: 6146749560070203269, guid: de27117a6def60f4ba27c63802050b6d, type: 3}
+  bulletPrefab: {fileID: 8864135856268846815, guid: 606ecc4f5c8492447a47644ebca29780, type: 3}
   playerTransform: {fileID: 5891222866680057044}
   playerHitBoxRadius: 10
-  bulletRadius: 20
+  bulletRadius: 5
+  playerBulletDamage: 1
+--- !u!114 &1809045493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809045489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 049bc124714730749aa5ade89393d1b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDirector
+--- !u!114 &1809045494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809045489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5ee3100539d4c409075ae9e21c51b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameEventManager
+--- !u!114 &1809045495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809045489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12d45ff3aaa8bc346bc1a988befbc77d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FieldOfPlayBounds
 --- !u!1001 &5891222866680057043
 PrefabInstance:
   m_ObjectHideFlags: 0

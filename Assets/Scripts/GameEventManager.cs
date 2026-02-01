@@ -52,7 +52,7 @@ public class GameEventManager : MonoBehaviour
 
     }
 
-    private void ScheduleEvent(float time, Func<IEnumerator> method)
+    public void ScheduleEvent(float time, Func<IEnumerator> method)
     {
         eventQueue.Add(new TimedEvent(time, method));
         
