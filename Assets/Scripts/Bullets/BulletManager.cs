@@ -5,6 +5,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Jobs; // REQUIRED
+using Enemy; // NEW
 
 namespace Bullets
 {
@@ -17,6 +18,9 @@ namespace Bullets
         public Transform playerTransform;
         public float playerHitBoxRadius = 10;
         public float bulletRadius = 50;
+
+        // NEW: how much damage player bullets deal to enemies
+        public float playerBulletDamage = 1f;
 
         // Data
         private BulletData _bulletData;
@@ -59,16 +63,6 @@ namespace Bullets
 
             // 2. Create the TransformAccessArray
             _transformAccessArray = new TransformAccessArray(transforms);
-
-            // SpawnPattern(
-            //     Patterns.Spiral(
-            //         position: new float2(0, 200),
-            //         bulletSpeed: 200f,
-            //         duration: 1.0f,
-            //         path: Paths.Homing(playerTransform, 50f)
-            //     )
-            // );
-            // StartCoroutine(ThrowCirclesAtPlayer(startPos: new float2(0, 300), speed: 300f, period: 0.5f));
         }
 
         private void Update()
@@ -84,6 +78,7 @@ namespace Bullets
             };
 
             _moveHandle = moveJob.Schedule(_transformAccessArray);
+
             var playerPos = new float2(playerTransform.position.x, playerTransform.position.y);
 
             var collisionJob = new CollisionJob
@@ -93,8 +88,14 @@ namespace Bullets
                 Bullets = _bulletData,
                 HitDetected = _playerHitFlag,
             };
+
             _collisionHandle = collisionJob.Schedule(maxBullets, 64, _moveHandle);
+
+            // You complete here already, so it is SAFE to read/write bullet arrays after this line.
             _collisionHandle.Complete();
+
+            // NEW: resolve player bullets hitting enemies (own physics, AABB)
+            HandleEnemyHits();
         }
 
         void LateUpdate()
@@ -133,11 +134,14 @@ namespace Bullets
             return -1;
         }
 
+        // CHANGED: added isPlayerBullet flag (defaults false)
         public void SpawnBullet(
-            float2 position, 
-            float2 velocity, 
-            BulletPath path = null, 
-            float radius = 50.0f) 
+            float2 position,
+            float2 velocity,
+            BulletPath path = null,
+            float radius = 50.0f,
+            bool isPlayerBullet = false
+        )
         {
             _collisionHandle.Complete();
             _moveHandle.Complete();
@@ -152,6 +156,9 @@ namespace Bullets
             _bulletData.Position[i] = position;
             _bulletData.Velocity[i] = velocity;
             _bulletData.Radius[i] = radius;
+
+            // NEW: tag ownership so only player bullets hurt enemies
+            _bulletData.IsPlayerBullet[i] = isPlayerBullet;
 
             if (path == null)
             {
@@ -181,9 +188,8 @@ namespace Bullets
                 }
             }
 
-            StartCoroutine(moveBulletWhileActive()); 
+            StartCoroutine(moveBulletWhileActive());
         }
-
 
         public void SpawnPattern(BulletPattern pattern)
         {
@@ -192,7 +198,7 @@ namespace Bullets
 
         private IEnumerator ThrowCirclesAtPlayer(float2 startPos, float speed, float period)
         {
-            for (; ; )
+            for (;;)
             {
                 float2 velocity =
                     math.normalize((float2)(Vector2)playerTransform.position - startPos) * speed;
@@ -207,6 +213,65 @@ namespace Bullets
                 );
 
                 yield return new WaitForSeconds(period);
+            }
+        }
+
+        // ----------------------------
+        // NEW: Enemy hit resolution
+        // ----------------------------
+
+        private void DespawnBullet(int i)
+        {
+            _bulletData.IsActive[i] = false;
+            _bulletData.IsPlayerBullet[i] = false;
+            _bulletData.Position[i] = new float2(MoveBulletJob.FAR_AWAY.x, MoveBulletJob.FAR_AWAY.y);
+            _bulletData.Velocity[i] = float2.zero;
+
+            if (_transformAccessArray.isCreated)
+                _transformAccessArray[i].position = MoveBulletJob.FAR_AWAY;
+        }
+
+        // Bullet circle vs enemy AABB (box)
+        private static bool CircleIntersectsAabb(float2 c, float r, float2 min, float2 max)
+        {
+            float cx = math.clamp(c.x, min.x, max.x);
+            float cy = math.clamp(c.y, min.y, max.y);
+
+            float dx = c.x - cx;
+            float dy = c.y - cy;
+
+            return (dx * dx + dy * dy) <= (r * r);
+        }
+
+        private void HandleEnemyHits()
+        {
+            var enemies = EnemyController.ActiveEnemies;
+            if (enemies == null || enemies.Count == 0) return;
+
+            for (int bi = 0; bi < maxBullets; bi++)
+            {
+                if (!_bulletData.IsActive[bi]) continue;
+
+                // Only player bullets damage enemies
+                if (!_bulletData.IsPlayerBullet[bi]) continue;
+
+                float2 bp = _bulletData.Position[bi];
+                float br = _bulletData.Radius[bi];
+
+                for (int ei = 0; ei < enemies.Count; ei++)
+                {
+                    var enemy = enemies[ei];
+                    if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+
+                    enemy.GetHurtboxAabb(out var min, out var max);
+
+                    if (CircleIntersectsAabb(bp, br, min, max))
+                    {
+                        enemy.TakeDamage(playerBulletDamage);
+                        DespawnBullet(bi);
+                        break; // bullet consumed on first hit
+                    }
+                }
             }
         }
     }

@@ -12,12 +12,17 @@ namespace Bullets
         public NativeArray<float> Radius;
         public NativeArray<bool> IsActive;
 
+        // NEW: tag bullets as player bullets (so only player bullets damage enemies)
+        public NativeArray<bool> IsPlayerBullet;
+
         public BulletData(int size)
         {
             Position = new(size, Allocator.Persistent);
             Velocity = new(size, Allocator.Persistent);
             Radius = new(size, Allocator.Persistent);
             IsActive = new(size, Allocator.Persistent);
+
+            IsPlayerBullet = new(size, Allocator.Persistent);
         }
 
         public void Dispose()
@@ -26,6 +31,8 @@ namespace Bullets
             Velocity.Dispose();
             Radius.Dispose();
             IsActive.Dispose();
+
+            IsPlayerBullet.Dispose();
         }
     }
 }
