@@ -84,6 +84,34 @@ namespace Bullets
                 return spawns;
             };
         }
+
+        public static BulletShot Long(
+            float2 targetPos,
+            float bulletSpeed,
+            float distanceBetweenBullets,
+            int numBullets
+        )
+        {
+            return (initPos) =>
+            {
+                float2 direction = math.normalize(targetPos - initPos);
+                float2 velocity = direction * bulletSpeed;
+                List<BulletSpawn> spawns = new();
+
+                for (int i = 0; i < numBullets; ++i)
+                {
+                    spawns.Add(
+                        new BulletSpawn
+                        {
+                            position = initPos + i * (direction * distanceBetweenBullets),
+                            velocity = velocity,
+                        }
+                    );
+                }
+
+                return spawns;
+            };
+        }
     }
 
     public class Patterns
