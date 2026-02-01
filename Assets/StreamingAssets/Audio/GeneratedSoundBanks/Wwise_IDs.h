@@ -14,6 +14,7 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID PLAY_ENEMYBULLET = 863241602U;
+        static const AkUniqueID PLAY_ENEMYBULLETLOOP = 483020596U;
         static const AkUniqueID PLAY_ENEMYDEATH = 3154146856U;
         static const AkUniqueID PLAY_ENEMYHIT = 2534390857U;
         static const AkUniqueID PLAY_MENUCLICKHOVER = 3016872785U;
@@ -22,7 +23,9 @@ namespace AK
         static const AkUniqueID PLAY_PLAYERFOCUSTOGGLE = 1297444699U;
         static const AkUniqueID PLAY_PLAYERPICKUPITEM = 3103906424U;
         static const AkUniqueID PLAY_PLAYERSHOOTFOCUS = 2769748522U;
+        static const AkUniqueID PLAY_PLAYERSHOOTFOCUSLOOP = 3440613804U;
         static const AkUniqueID PLAY_PLAYERSHOOTNORMAL = 7909091U;
+        static const AkUniqueID PLAY_PLAYERSHOOTNORMALLOOP = 3582844621U;
     } // namespace EVENTS
 
     namespace BANKS

@@ -10,11 +10,19 @@
     "Type": "User",
     "GUID": "{E70FC5C0-998F-41BF-9C05-C37E061ABD57}",
     "Language": "SFX",
-    "Hash": "{A1896CB6-0205-46DC-6F0A-863D1BF24410}",
+    "Hash": "{D2AE61E0-E946-F59B-841B-890D3539C296}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\MainSoundBank",
     "ShortName": "MainSoundBank",
     "Path": "MainSoundBank.bnk",
     "Media": [
+     {
+      "Id": "84460591",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "EnemyBulletLoop.wav",
+      "CachePath": "BA/{BAD43432-629B-5BE8-C921-5A9A1489E641}.wem"
+     },
      {
       "Id": "289297324",
       "Language": "SFX",
@@ -22,6 +30,14 @@
       "Location": "Memory",
       "ShortName": "EnemyDeath.wav",
       "CachePath": "C5/{C544A7DC-1D0E-97FE-FC8E-C0EDB04DCFA5}.wem"
+     },
+     {
+      "Id": "314162725",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "PlayerShootFocusLoop.wav",
+      "CachePath": "87/{870D122C-2217-2A1A-E60C-D41A0C4BBD98}.wem"
      },
      {
       "Id": "428497870",
@@ -88,6 +104,14 @@
       "CachePath": "57/{5769136A-DA43-115E-A62E-C963E8E58FF4}.wem"
      },
      {
+      "Id": "850218867",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "PlayerShootNormalLoop.wav",
+      "CachePath": "D2/{D2F5BD1B-27D3-2574-5AD5-7C73A1246B4F}.wem"
+     },
+     {
       "Id": "1016380551",
       "Language": "SFX",
       "Streaming": "false",
@@ -108,6 +132,20 @@
       "MediaRefs": [
        {
         "Id": "481973229"
+       }
+      ]
+     },
+     {
+      "Id": "483020596",
+      "Name": "Play_EnemyBulletLoop",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_EnemyBulletLoop",
+      "GUID": "{AEDAEBC6-5396-4E72-9CCB-6F462AF8EA6A}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.33958334",
+      "DurationMax": "0.33958334",
+      "MediaRefs": [
+       {
+        "Id": "84460591"
        }
       ]
      },
@@ -224,6 +262,20 @@
       ]
      },
      {
+      "Id": "3440613804",
+      "Name": "Play_PlayerShootFocusLoop",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_PlayerShootFocusLoop",
+      "GUID": "{98016918-7E98-4A43-9744-414D4BD635F0}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.39635417",
+      "DurationMax": "0.39635417",
+      "MediaRefs": [
+       {
+        "Id": "314162725"
+       }
+      ]
+     },
+     {
       "Id": "7909091",
       "Name": "Play_PlayerShootNormal",
       "ObjectPath": "\\Events\\Default Work Unit\\Play_PlayerShootNormal",
@@ -236,10 +288,24 @@
         "Id": "719315173"
        }
       ]
+     },
+     {
+      "Id": "3582844621",
+      "Name": "Play_PlayerShootNormalLoop",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_PlayerShootNormalLoop",
+      "GUID": "{5B7D8B11-AF48-42A4-90A4-3CE1031AD388}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.3609375",
+      "DurationMax": "0.3609375",
+      "MediaRefs": [
+       {
+        "Id": "850218867"
+       }
+      ]
      }
     ]
    }
   ],
-  "FileHash": "{14F71551-077F-15CB-5F08-C0E8160B4BEE}"
+  "FileHash": "{5D9B98F5-3D76-414E-93D6-2D2049B4B9C4}"
  }
 }
