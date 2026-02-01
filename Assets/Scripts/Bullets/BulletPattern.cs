@@ -56,13 +56,33 @@ namespace Bullets
                 return spawns;
             };
         }
-            {
-                float deg = baseDeg + (k * spreadDegrees);
-                float2 vel = Util.DegreeToVector2(deg) * bulletSpeed;
-                spawns.Add(new BulletSpawn { position = initPos, velocity = vel });
-            }
 
-            return spawns;
+        public static BulletShot Wide(
+            float2 targetPos,
+            float bulletSpeed,
+            float distanceBetweenBullets,
+            int numBullets
+        )
+        {
+            return (initPos) =>
+            {
+                float2 velocity = math.normalize(targetPos - initPos) * bulletSpeed;
+                List<BulletSpawn> spawns = new();
+
+                for (int i = -numBullets + 1; i <= numBullets - 1; i += 2)
+                {
+                    // rotate by 90 degrees
+                    float2 offset =
+                        math.normalize(new float2(velocity.y, -velocity.x))
+                        * ((float)i / (numBullets - 1))
+                        * distanceBetweenBullets;
+                    spawns.Add(
+                        new BulletSpawn { position = initPos + offset, velocity = velocity }
+                    );
+                }
+
+                return spawns;
+            };
         }
     }
 
