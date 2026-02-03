@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{D6795E89-3A98-49F8-BB95-ADCDF83BA8CB}" SchemaVersion="123">
+	<SoundBanks>
+		<WorkUnit Name="Default Work Unit" ID="{D6795E89-3A98-49F8-BB95-ADCDF83BA8CB}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="MainSoundBank" ID="{E70FC5C0-998F-41BF-9C05-C37E061ABD57}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Play_PlayerPickUpItem" ID="{3BF1DDFE-94CC-4149-A5A4-35253A567974}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_EnemyDeath" ID="{DF29195C-C4BE-425B-BDF4-9D00EDA9A0EE}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_PlayerFocusToggle" ID="{08B7C50E-962D-4367-AE28-1BAE1E88C193}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_PlayerDeath" ID="{53AB7565-FF65-46D9-B5CE-4035D0080926}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_EnemyBullet" ID="{C1017C2A-347A-4A9E-990F-E0E9A8349A73}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_MenuClickHover" ID="{BB19545C-9085-4B0D-AD98-B59B86A5940E}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_PlayerShootNormal" ID="{A2A535C5-5D32-4C0C-A1E6-0BBC1A31BBF0}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_PlayerShootFocus" ID="{5300E112-3F0F-4D71-AE1E-08ED89E99DAD}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_EnemyHit" ID="{329AFE5E-F353-4E6E-AE0A-4DD9065C55B4}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_PlayerDamage" ID="{C588C08A-916D-4E83-AD50-BF9B073A4A35}" WorkUnitID="{0E597649-9712-4885-8F14-7895D2FC1993}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

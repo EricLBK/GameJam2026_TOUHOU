@@ -30,6 +30,12 @@
 /[Aa]ssets/Plugins/Editor/JetBrains*
 # Jetbrains Rider personal-layer settings
 *.DotSettings.user
+# Wwise
+.cache
+*.akd
+*.prof
+*.validationcache
+*/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset*
 
 # Visual Studio cache directory
 .vs/
