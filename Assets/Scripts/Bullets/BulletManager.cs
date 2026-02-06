@@ -90,11 +90,9 @@ namespace Bullets
 
         void LateUpdate()
         {
-            if (_playerHitFlag.Value == 1)
-            {
-                Debug.Log("Hit!");
-                _playerHitFlag.Value = 0;
-            }
+            if (_playerHitFlag.Value != 1) return;
+            PlayerStats.Instance.LoseLife();
+            _playerHitFlag.Value = 0;
         }
 
         private void OnDestroy()

@@ -35,6 +35,8 @@ namespace Bullets
         public float turnRateDegPerSec = 240f;
         public float homingDelaySeconds = 0.35f;
 
+        public bool disableShooting = false;
+
         [Header("Focus Mode (4 straight lanes)")]
         [Tooltip("Distance between adjacent lanes (world units).")]
         public float focusLaneSpacing = 30f;
@@ -46,7 +48,7 @@ namespace Bullets
             if (bulletManager == null) return;
 
             bool firing = Input.GetKey(fireKey);
-            if (!firing) return;
+            if (!firing || disableShooting) return;
 
             bool focus = Input.GetKey(focusKeyLeft) || Input.GetKey(focusKeyRight);
 

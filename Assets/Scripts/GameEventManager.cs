@@ -71,14 +71,10 @@ public class GameEventManager : MonoBehaviour
         
         _eventQueue.RemoveAt(0);
 
-        Debug.Log($"Event Triggered at {gameEvent.triggerTime}s. Pausing timer...");
-
         if (gameEvent.MethodToRun != null)
         {
             yield return StartCoroutine(gameEvent.MethodToRun());
         }
-
-        Debug.Log("Event Finished. Resuming timer.");
         _isPaused = false;
     }
     

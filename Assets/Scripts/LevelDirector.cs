@@ -21,6 +21,7 @@ public class LevelDirector : MonoBehaviour
     private GameObject _horsePrefab;
     private GameObject _fairy1Prefab;
     private GameObject _fairy2Prefab;
+    private ReimuShooter _shooterController;
 
     
     private Rect _bounds;
@@ -41,6 +42,8 @@ public class LevelDirector : MonoBehaviour
 
         _bullet1 = Resources.Load<GameObject>("Prefab/Bullets/AnimatedBullet/Pink");
         _dialogueController = dialogueManager.GetComponent<DialogueController>();
+        _shooterController = player.GetComponent<ReimuShooter>();
+        
         Phase1();
         GameEventManager.Instance.ScheduleEvent(12.0f, StartDialogue1);
         Phase2();
@@ -103,25 +106,40 @@ public class LevelDirector : MonoBehaviour
         _enemyManager.SpawnPattern(Patterns.SingleShot(Shots.Spread((Vector2)player.transform.position)), duration: 0.5f);
         yield return new WaitForSeconds(0.5f);
     }
-    
+
+    private IEnumerator StartDialogue(DialogueAsset dialogue)
+    {
+        dialogueCanvas.enabled = true;
+        _shooterController.disableShooting = true;
+        
+        _dialogueController.StartDialogue(dialogue);
+        yield return new WaitUntil(() => _dialogueController.IsFinished);
+        dialogueCanvas.enabled = false;
+        _shooterController.disableShooting = false;
+        
+    }
 
     private IEnumerator StartDialogue1()
     {
         dialogueCanvas.enabled = true;
+        _shooterController.disableShooting = true;
         
         _dialogueController.StartDialogue(dialogueAsset1);
         yield return new WaitUntil(() => _dialogueController.IsFinished);
         dialogueCanvas.enabled = false;
-
+        _shooterController.disableShooting = false;
     }
     
     private IEnumerator StartDialogue2()
     {
         dialogueCanvas.enabled = true;
+        _shooterController.disableShooting = true;
         
         _dialogueController.StartDialogue(dialogueAsset2);
         yield return new WaitUntil(() => _dialogueController.IsFinished);
         dialogueCanvas.enabled = false;
+        _shooterController.disableShooting = false;
+        
     }
     
 

@@ -44,7 +44,7 @@ namespace Enemy
             }
             
             var controller = GetFromPool(gamePrefab);
-            controller.Initialize(path: path, bulletManager:_bulletManager, scoreDrops: scoreDrops, hitRadius: radius, speed: speed, returnToPool: ReturnToPool);
+            controller.Initialize(path: path, bulletManager:_bulletManager, hitRadius: radius, speed: speed, returnToPool: ReturnToPool);
             _curController = controller;
         }
 

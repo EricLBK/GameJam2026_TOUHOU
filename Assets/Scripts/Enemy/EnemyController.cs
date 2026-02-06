@@ -28,10 +28,8 @@ namespace Enemy
         private float _hitRadius;
         private float _currentHp;
         private float _pathProgress; // 't' value (0.0 to 1.0)
-        private int _drops;
         private float _speed;
         private EnemyPath _currentPath;
-        private Rect _cullingRect;
         private BulletManager _bulletManager;
         private Action<EnemyController> _onDeathCallback; // To return to pool
 
@@ -51,7 +49,6 @@ namespace Enemy
         public void Initialize(
             EnemyPath path,
             BulletManager bulletManager,
-            int scoreDrops,
             float hitRadius,
             Action<EnemyController> returnToPool,
             float speed = 0.5f,
@@ -60,8 +57,6 @@ namespace Enemy
         {
             _dropPrefab = Resources.Load<GameObject>("Prefab/Pickup-able/Soul");
             _currentPath = path;
-            _drops = scoreDrops;
-            _cullingRect = FieldOfPlayBounds.Instance.Bounds;
             _onDeathCallback = returnToPool;
             _bulletManager = bulletManager;
 
@@ -121,6 +116,10 @@ namespace Enemy
             {
                 Kill(true); // Die with explosion / rewards
             }
+            else
+            {
+                PlaySoundScript.Instance.PlaySound(PlaySoundScript.SoundEffects.EnemyHit);
+            }
         }
 
         public void SpawnPattern(BulletPattern pattern, float duration)
@@ -138,6 +137,8 @@ namespace Enemy
             {
                 // Instantiate Explosion Particle
 
+                // PlaySoundScript.Instance.DeathSound.Play();
+                PlaySoundScript.Instance.PlaySound(PlaySoundScript.SoundEffects.EnemyHit);
                 // --- Rewards (only when actually killed) ---
                 if (pointsOnKill > 0 && ScoreKeeper.Instance != null)
                     ScoreKeeper.Instance.AddScore(pointsOnKill);
